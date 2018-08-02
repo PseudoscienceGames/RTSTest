@@ -1,0 +1,10 @@
+Box Selection
+single selection
+shift selection
+Movement
+right click select action
+unit inventory
+pick up command
+drop command
+trade command
+work command
