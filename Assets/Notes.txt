@@ -1,4 +1,4 @@
-Box Selection
+-Box Selection
 single selection
 shift selection
 Movement
