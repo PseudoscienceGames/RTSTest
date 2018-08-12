@@ -1,6 +1,6 @@
 -Box Selection
-single selection
-shift selection
+-single selection
+-shift selection
 Movement
 right click select action
 unit inventory

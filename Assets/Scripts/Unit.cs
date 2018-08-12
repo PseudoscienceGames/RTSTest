@@ -4,7 +4,5 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-	public SelectionState sState;
+	
 }
-
-public enum SelectionState { NotSelected, Selected, Highlighted};

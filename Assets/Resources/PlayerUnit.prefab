@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 195630734159678170}
   - component: {fileID: 114819172253373704}
   - component: {fileID: 114706766107469402}
+  - component: {fileID: 136408210466480738}
   m_Layer: 0
   m_Name: PlayerUnit
-  m_TagString: Untagged
+  m_TagString: PlayerUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,9 +40,8 @@ GameObject:
   - component: {fileID: 4833022655465386}
   - component: {fileID: 33043082220563782}
   - component: {fileID: 23063854804502650}
-  - component: {fileID: 136631664585252298}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Visuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,6 +127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ee340bebd1a8324cbd800704cb858e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenPoint: {x: 0, y: 0}
+  sState: 0
+  myMarker: {fileID: 0}
 --- !u!114 &114819172253373704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,21 +141,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a483d013e8da2f34aaa1340676127ba2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sState: 0
-  screenPoint: {x: 0, y: 0}
---- !u!136 &136631664585252298
+--- !u!136 &136408210466480738
 CapsuleCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1230358456793266}
+  m_GameObject: {fileID: 1178573178964158}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!195 &195630734159678170
 NavMeshAgent:
   m_ObjectHideFlags: 1
