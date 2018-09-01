@@ -16,7 +16,7 @@ public class Selectable : MonoBehaviour
 
 	void Start ()
 	{
-		GameObject.Find("InputController").GetComponent<InputController>().selectables.Add(this);
+		GameObject.Find("Cam").GetComponent<InputController>().selectables.Add(this);
 		myMarker = (Instantiate(Resources.Load("SelectionMarker")) as GameObject).GetComponent<SelectionMarker>();
 		myMarker.transform.parent = GameObject.Find("Canvas").transform;
 		myMarker.unit = transform;

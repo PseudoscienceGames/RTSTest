@@ -1,7 +1,7 @@
 -Box Selection
 -single selection
 -shift selection
-Movement
+-Movement
 right click select action
 unit inventory
 pick up command

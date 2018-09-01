@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
 {
-	
+	public void SetDestination(Vector3 pos)
+	{
+		GetComponent<NavMeshAgent>().SetDestination(pos);
+	}
 }

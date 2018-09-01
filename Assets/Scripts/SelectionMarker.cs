@@ -17,26 +17,22 @@ public class SelectionMarker : MonoBehaviour
 	{
 		Bounds b = unit.GetChild(0).GetComponent<Renderer>().bounds;
 		List<Vector2> screenPoints = new List<Vector2>();
-		screenPoints.Add(Camera.main.WorldToScreenPoint(new Vector3(b.min.x, b.min.y, b.min.z)));
-		screenPoints.Add(Camera.main.WorldToScreenPoint(new Vector3(b.min.x, b.min.y, b.max.z)));
-		screenPoints.Add(Camera.main.WorldToScreenPoint(new Vector3(b.min.x, b.max.y, b.max.z)));
-		screenPoints.Add(Camera.main.WorldToScreenPoint(new Vector3(b.min.x, b.max.y, b.min.z)));
-		screenPoints.Add(Camera.main.WorldToScreenPoint(new Vector3(b.max.x, b.min.y, b.min.z)));
-		screenPoints.Add(Camera.main.WorldToScreenPoint(new Vector3(b.max.x, b.min.y, b.max.z)));
-		screenPoints.Add(Camera.main.WorldToScreenPoint(new Vector3(b.max.x, b.max.y, b.min.z)));
-		screenPoints.Add(Camera.main.WorldToScreenPoint(new Vector3(b.max.x, b.max.y, b.max.z)));
+		Vector3 cross = Vector3.Cross(Vector3.up, b.center - Camera.main.transform.position).normalized * 0.5f;
+		screenPoints.Add(Camera.main.WorldToScreenPoint(b.center + Vector3.up + cross));
+		screenPoints.Add(Camera.main.WorldToScreenPoint(b.center + Vector3.up - cross));
+		screenPoints.Add(Camera.main.WorldToScreenPoint(b.center - Vector3.up + cross));
+		screenPoints.Add(Camera.main.WorldToScreenPoint(b.center - Vector3.up - cross));
 		Vector2 min = Camera.main.WorldToScreenPoint(b.center);
 		Vector2 max = Camera.main.WorldToScreenPoint(b.center);
 		foreach (Vector2 p in screenPoints)
 		{
 			min = Vector2.Min(min, p);
 			max = Vector2.Max(max, p);
-			min -= Vector2.one * 0.1f;
-			max += Vector2.one * 0.1f;
 		}
 		rt.position = (min + max) / 2f;
 		rt.sizeDelta = 2 * ((Vector2)rt.position - min);
-		rt.sizeDelta = new Vector2(rt.sizeDelta.x * 1.1f, rt.sizeDelta.y * 1.05f);
+		rt.sizeDelta = new Vector2(rt.sizeDelta.x * .95f, rt.sizeDelta.y * .95f);
+
 	}
 
 	public void Highlight()

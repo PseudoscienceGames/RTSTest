@@ -1,17 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ControlState2 : State
 {
+	private void Update()
+	{
+		if (Input.GetMouseButtonUp(2))
+			sm.ChangeState<DefaultControlState>();
+		
 
-	// Use this for initialization
-	void Start () {
+	}
+	public override void Enter()
+	{
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	public override void Exit()
+	{
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Terrain")
+		{
+			//ic.target.GetComponent<NavMeshAgent>().SetDestination(hit.point);
+		}
 	}
 }

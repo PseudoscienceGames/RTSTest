@@ -10,7 +10,6 @@ public class StateMachine : MonoBehaviour
 	}
 
 	protected State _currentState;
-	protected bool _inTransition;
 
 	public virtual T GetState<T> () where T : State
 	{
@@ -38,7 +37,7 @@ public class StateMachine : MonoBehaviour
 
 	protected virtual void Transition (State value)
 	{
-		if (_currentState == value || _inTransition)
+		if (_currentState == value)
 			return;
 	}
 

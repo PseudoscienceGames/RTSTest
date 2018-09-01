@@ -28,5 +28,9 @@ public class DefaultControlState : State
 		{
 			sm.ChangeState<ControlState1>();
 		}
+		if (!ic.mouseOverUI && Input.GetMouseButtonDown(2))
+		{
+			sm.ChangeState<ControlState2>();
+		}
 	}
 }

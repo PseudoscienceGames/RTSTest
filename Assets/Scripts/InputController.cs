@@ -27,6 +27,27 @@ public class InputController : MonoBehaviour
 
 	public GameObject cameraPivot;
 
+	private void Start()
+	{
+		Move(transform.position);
+	}
+	private void Update()
+	{
+		if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+		{
+			Move(transform.position + transform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))));
+		}
+	}
+	public void Move(Vector3 loc)
+	{
+		Ray ray = new Ray(loc + (Vector3.up * 100), Vector3.down);
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Terrain")
+		{
+			transform.position = hit.point;
+		}
+	}
+
 	public void DrawSelectionBox()
 	{
 		mousePos2 = Input.mousePosition;
@@ -67,7 +88,18 @@ public class InputController : MonoBehaviour
 	public void HideSelectionBox()
 	{
 		SetSelectionBox(new Vector2(-10, -10), Vector2.one);
-		Debug.Log("not being hidden");
+	}
+
+	private Vector3 FindMouseMapPos()
+	{
+		Vector3 mouseMapPoint = new Vector3();
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Terrain")
+		{
+			mouseMapPoint = hit.point;
+		}
+		return mouseMapPoint;
 	}
 
 	public void RaycastSelect()
@@ -76,7 +108,6 @@ public class InputController : MonoBehaviour
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit) && hit.transform.tag == "PlayerUnit")
 		{
-			Debug.DrawLine(Camera.main.transform.position, hit.point, Color.red, 1000);
 			Selectable s = hit.transform.GetComponent<Selectable>();
 			if (Input.GetKey(KeyCode.LeftShift))
 				FlipSelection(s);
@@ -130,11 +161,21 @@ public class InputController : MonoBehaviour
 	}
 	void DeselectAll()
 	{
-
+		foreach (Selectable s in selection)
+			s.ChangeState(SelectionState.NotSelected);
+		selection.Clear();
 	}
 	public void RotateCamera(Vector2 mouseInput)
 	{
 		transform.Rotate(Vector3.up, mouseInput.x * cameraRotSpeed * Time.deltaTime, Space.Self);
 		cameraPivot.transform.Rotate(-Vector3.right, mouseInput.y * cameraRotSpeed * Time.deltaTime);
+	}
+
+	public void SetUnitDestinations()
+	{
+		foreach (Selectable s in selection)
+		{
+			s.GetComponent<Unit>().SetDestination(FindMouseMapPos());
+		}
 	}
 }
