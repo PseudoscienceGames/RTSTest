@@ -9,4 +9,9 @@ public class TestingSpawner : MonoBehaviour
 		Debug.Log("SpawnPlayerUnit");
 		Instantiate(Resources.Load("PlayerUnit"));
 	}
+	public void SpawnZombieUnit()
+	{
+		Debug.Log("SpawnZombieUnit");
+		Instantiate(Resources.Load("ZombieUnit"));
+	}
 }

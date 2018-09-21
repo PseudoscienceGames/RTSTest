@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefaultControlState : State
+public class DefaultControlState : ControlState
 {
 	private void Update()
 	{

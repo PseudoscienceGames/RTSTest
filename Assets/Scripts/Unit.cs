@@ -5,8 +5,11 @@ using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
 {
+	public Vector3 destination;
+
 	public void SetDestination(Vector3 pos)
 	{
+		destination = pos;
 		GetComponent<NavMeshAgent>().SetDestination(pos);
 	}
 }

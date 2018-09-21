@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ControlState2 : State
+public class ControlState2 : ControlState
 {
 	private void Update()
 	{

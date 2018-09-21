@@ -40,9 +40,4 @@ public class StateMachine : MonoBehaviour
 		if (_currentState == value)
 			return;
 	}
-
-	private void Start()
-	{
-		ChangeState<DefaultControlState>();
-	}
 }
