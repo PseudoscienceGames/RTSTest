@@ -7,6 +7,7 @@ public class SelectionMarker : MonoBehaviour
 {
 	public Transform unit;
 	public RectTransform rt;
+	public Renderer r;
 
 	private void Start()
 	{
@@ -15,7 +16,7 @@ public class SelectionMarker : MonoBehaviour
 
 	private void Update()
 	{
-		Bounds b = unit.GetChild(0).GetComponent<Renderer>().bounds;
+		Bounds b = r.bounds;
 		List<Vector2> screenPoints = new List<Vector2>();
 		Vector3 cross = Vector3.Cross(Vector3.up, b.center - Camera.main.transform.position).normalized * 0.5f;
 		screenPoints.Add(Camera.main.WorldToScreenPoint(b.center + Vector3.up + cross));

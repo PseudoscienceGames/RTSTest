@@ -8,6 +8,7 @@ public class Selectable : MonoBehaviour
 	public Vector2 screenPoint;
 	public SelectionState sState;
 	public SelectionMarker myMarker;
+	public Renderer r;
 
 	private void Update()
 	{
@@ -19,7 +20,7 @@ public class Selectable : MonoBehaviour
 		GameObject.Find("Cam").GetComponent<InputController>().selectables.Add(this);
 		myMarker = (Instantiate(Resources.Load("SelectionMarker")) as GameObject).GetComponent<SelectionMarker>();
 		myMarker.transform.parent = GameObject.Find("Canvas").transform;
-		myMarker.unit = transform;
+		myMarker.r = r;
 	}
 
 	public void ChangeState(SelectionState s)
