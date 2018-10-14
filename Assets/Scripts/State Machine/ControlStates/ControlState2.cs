@@ -9,8 +9,8 @@ public class ControlState2 : ControlState
 	{
 		if (Input.GetMouseButtonUp(2))
 			sm.ChangeState<DefaultControlState>();
-		
-
+		else
+			transform.position -= transform.TransformVector(new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y")));
 	}
 	public override void Enter()
 	{
