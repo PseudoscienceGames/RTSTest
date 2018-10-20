@@ -21,7 +21,18 @@ public class ControlState1 : ControlState
 
 	public override void Exit()
 	{
-		if (Vector2.Distance(Input.mousePosition, ic.mousePos1) < 10 && ic.selection.Count > 0)
-			ic.SetUnitDestinations();
+		if (Vector2.Distance(Input.mousePosition, ic.mousePos1) < 10)
+		{
+			if (ic.selection.Count > 0)
+			{
+				if(InteractableController.instance.interactables.ContainsKey(GridCursor.instance.gridLoc))
+				{
+					InteractableController.instance.DisplayOptions(GridCursor.instance.gridLoc);
+				}
+				else
+					ic.SetUnitDestinations();
+			}
+		}
+	
 	}
 }

@@ -7,7 +7,9 @@ public class TestingSpawner : MonoBehaviour
 	public void SpawnPlayerUnit()
 	{
 		Debug.Log("SpawnPlayerUnit");
-		Instantiate(Resources.Load("PlayerUnit"));
+		GameObject pawn = Instantiate(Resources.Load("PlayerUnit")) as GameObject;
+		pawn.GetComponent<Unit>().stats = PawnController.instance.pawns.Count;
+		PawnController.instance.AddPawn();
 	}
 	public void SpawnZombieUnit()
 	{

@@ -13,4 +13,9 @@ public class ControlStateMachine : StateMachine
 	{
 		ChangeState<BuildWallState>();
 	}
+
+	public void BuildDoor()
+	{
+		ChangeState<BuildDoorState>();
+	}
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class Grid
 {
-	public static float hexRadius = 1f;
+	public static float hexRadius = 0.5773502691896258f;
 	public static float tileHeight = .25f;
 	public static float maxHeightDifference = 0.25f;
 
@@ -76,5 +76,30 @@ public static class Grid
 		for (int i = 0; i < 6; i++)
 			adjacentLocs.Add(MoveTo(gridLoc, i));
 		return adjacentLocs;
+	}
+
+	public static List<Vector2Int> FindWithinRadius(Vector2Int gridLoc, int radius)
+	{
+		List<Vector2Int> locs = new List<Vector2Int>();
+		locs.Add(gridLoc);
+		for (int i = 1; i < radius; i++)
+		{
+			//Set initial hex grid location
+			Vector2Int offset = new Vector2Int(i, -i);
+			locs.Add(offset + gridLoc);
+			int dir = 2;
+			//Find data for each hex in the ring (each ring has 6 more hexes than the last)
+			for (int fHex = 0; fHex < 6 * i; fHex++)
+			{
+				if (!locs.Contains(offset + gridLoc))
+					locs.Add(offset + gridLoc);
+				offset = Grid.MoveTo(offset, dir);
+				if (offset.x == 0 || offset.y == 0 || offset.x == -offset.y)
+				{
+					dir++;
+				}
+			}
+		}
+		return locs;
 	}
 }

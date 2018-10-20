@@ -11,7 +11,7 @@ public class BuildWallState : ControlState
 
 	private void Update()
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (!ic.mouseOverUI && Input.GetMouseButtonDown(0))
 			StartWall();
 		if (Input.GetMouseButtonUp(0))
 			EndWall();
@@ -19,6 +19,15 @@ public class BuildWallState : ControlState
 			DrawWall();
 		if (Input.GetKeyDown(KeyCode.Escape))
 			sm.ChangeState<DefaultControlState>();
+		if(Input.GetMouseButtonDown(1))
+			ic.mousePos1 = Input.mousePosition;
+		if (Input.GetMouseButton(1))
+			ic.RotateCamera(new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")));
+		if (Input.GetMouseButtonUp(1) && Vector2.Distance(Input.mousePosition, ic.mousePos1) < 10)
+		{
+			sm.ChangeState<DefaultControlState>();
+			CancelWall();
+		}
 	}
 
 	void StartWall()
@@ -30,11 +39,17 @@ public class BuildWallState : ControlState
 	void EndWall()
 	{
 		buildingWall = false;
+		GridCursor.instance.TurnOffWall();
+		GameObject currentWall = Instantiate(Resources.Load("WallPrefab")) as GameObject;
+		currentWall.transform.position = GridCursor.instance.wallTool.transform.position;
+		currentWall.transform.rotation = GridCursor.instance.wallTool.transform.rotation;
+		currentWall.transform.localScale = GridCursor.instance.wallTool.transform.localScale;
 	}
 
 	void CancelWall()
 	{
 		buildingWall = false;
+		GridCursor.instance.TurnOffWall();
 	}
 
 	void DrawWall()
@@ -45,10 +60,10 @@ public class BuildWallState : ControlState
 		if (angle % 30 != 0)
 		{
 			Vector3 t = Vector3.right * (eWorld - sWorld).magnitude;
-			Debug.Log(angle + " " + Mathf.Round(angle / 30f) * 30f);
-			eWorld = (Quaternion.Euler(0, Mathf.Round(angle / 30f) * 30f, 0) * t) + sWorld;
+			angle = Mathf.Round(angle / 30f) * 30f;
+			eWorld = (Quaternion.Euler(0, angle, 0) * t) + sWorld;
+			eWorld = Grid.GridToWorld(Grid.RoundToGrid(eWorld), 0);
 		}
-		Debug.DrawLine(sWorld, eWorld, Color.red);
-		//else draw line to nearest 30
+		GridCursor.instance.SetWallTool(sWorld, angle, Vector3.Distance(sWorld, eWorld));
 	}
 }

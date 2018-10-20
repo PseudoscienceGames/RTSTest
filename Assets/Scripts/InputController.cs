@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
+	public static InputController instance;
+	private void Awake(){instance = this;}
+
 	public State state;
 
 	public Vector2 mousePos1;
@@ -173,9 +176,15 @@ public class InputController : MonoBehaviour
 
 	public void SetUnitDestinations()
 	{
-		foreach (Selectable s in selection)
+		List<Vector2Int> locs = Grid.FindWithinRadius(GridCursor.instance.gridLoc, 3);
+		for (int i = 0; i < selection.Count; i++)
 		{
-			s.GetComponent<Unit>().SetDestination(FindMouseMapPos());
+			selection[i].GetComponent<Unit>().SetDestination(Grid.GridToWorld(locs[i], 0));
 		}
+	}
+
+	public void SetUnitInteraction(InteractionSpot i)
+	{
+		selection[0].GetComponent<Unit>().Interact(i);
 	}
 }
