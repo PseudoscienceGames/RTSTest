@@ -7,7 +7,7 @@ public class ControlState : State
 	public StateMachine sm;
 	public InputController ic;
 
-	private void Start()
+	public virtual void Start()
 	{
 		ic = GetComponent<InputController>();
 		sm = GetComponent<StateMachine>();

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -790,6 +790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 688174518}
   - component: {fileID: 688174517}
+  - component: {fileID: 688174519}
   m_Layer: 0
   m_Name: Cursor
   m_TagString: Untagged
@@ -808,6 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26d732cdb53d4f44a58786f6ebfdacf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridLoc: {x: 0, y: 0, z: 0}
 --- !u!4 &688174518
 Transform:
   m_ObjectHideFlags: 0
@@ -822,6 +824,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &688174519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 688174516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f92f06eba4ce1364f9f1be8f4b1a6746, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wall: {fileID: 1443576793}
 --- !u!1 &712801491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1578,7 +1592,7 @@ GameObject:
   - component: {fileID: 1052877242}
   - component: {fileID: 1052877241}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1643,7 +1657,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1631533846}
-        m_MethodName: BuildWall
+        m_MethodName: WallBuildTool
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1689,6 +1703,11 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1052877239}
   m_CullTransparentMesh: 0
+--- !u!1 &1443576793 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: 28a25854835a1684791fa802de73ec31,
+    type: 3}
+  m_PrefabInternal: {fileID: 1615042387}
 --- !u!1 &1563076687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1906,6 +1925,56 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1595119140}
   m_CullTransparentMesh: 0
+--- !u!1001 &1615042387
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e9f1c7c1908bb4441ae699e7747dee5b, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 28a25854835a1684791fa802de73ec31, type: 3}
+  m_IsPrefabAsset: 0
 --- !u!1 &1631533845
 GameObject:
   m_ObjectHideFlags: 0

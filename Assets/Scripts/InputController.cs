@@ -32,16 +32,16 @@ public class InputController : MonoBehaviour
 
 	private void Start()
 	{
-		Move(transform.position);
+		MoveCamera(transform.position);
 	}
 	private void Update()
 	{
 		if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
 		{
-			Move(transform.position + transform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))));
+			MoveCamera(transform.position + transform.TransformDirection(new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"))));
 		}
 	}
-	public void Move(Vector3 loc)
+	public void MoveCamera(Vector3 loc)
 	{
 		Ray ray = new Ray(loc + (Vector3.up * 100), Vector3.down);
 		RaycastHit hit;

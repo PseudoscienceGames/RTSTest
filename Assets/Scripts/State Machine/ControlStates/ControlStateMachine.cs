@@ -8,4 +8,9 @@ public class ControlStateMachine : StateMachine
 	{
 		ChangeState<DefaultControlState>();
 	}
+
+	public void WallBuildTool()
+	{
+		ChangeState<BuildWallState>();
+	}
 }
