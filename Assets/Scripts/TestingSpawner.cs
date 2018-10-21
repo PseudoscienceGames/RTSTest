@@ -8,8 +8,6 @@ public class TestingSpawner : MonoBehaviour
 	{
 		Debug.Log("SpawnPlayerUnit");
 		GameObject pawn = Instantiate(Resources.Load("PlayerUnit")) as GameObject;
-		pawn.GetComponent<Unit>().stats = PawnController.instance.pawns.Count;
-		PawnController.instance.AddPawn();
 	}
 	public void SpawnZombieUnit()
 	{

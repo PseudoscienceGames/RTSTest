@@ -8,14 +8,4 @@ public class ControlStateMachine : StateMachine
 	{
 		ChangeState<DefaultControlState>();
 	}
-
-	public void BuildWall()
-	{
-		ChangeState<BuildWallState>();
-	}
-
-	public void BuildDoor()
-	{
-		ChangeState<BuildDoorState>();
-	}
 }

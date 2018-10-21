@@ -93,7 +93,7 @@ public class InputController : MonoBehaviour
 		SetSelectionBox(new Vector2(-10, -10), Vector2.one);
 	}
 
-	private Vector3 FindMouseMapPos()
+	public Vector3 FindMouseMapPos()
 	{
 		Vector3 mouseMapPoint = new Vector3();
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -176,15 +176,9 @@ public class InputController : MonoBehaviour
 
 	public void SetUnitDestinations()
 	{
-		List<Vector2Int> locs = Grid.FindWithinRadius(GridCursor.instance.gridLoc, 3);
-		for (int i = 0; i < selection.Count; i++)
+		foreach (Selectable s in selection)
 		{
-			selection[i].GetComponent<Unit>().SetDestination(Grid.GridToWorld(locs[i], 0));
+			s.GetComponent<Unit>().SetDestination(FindMouseMapPos());
 		}
-	}
-
-	public void SetUnitInteraction(InteractionSpot i)
-	{
-		selection[0].GetComponent<Unit>().Interact(i);
 	}
 }

@@ -25,12 +25,7 @@ public class ControlState1 : ControlState
 		{
 			if (ic.selection.Count > 0)
 			{
-				if(InteractableController.instance.interactables.ContainsKey(GridCursor.instance.gridLoc))
-				{
-					InteractableController.instance.DisplayOptions(GridCursor.instance.gridLoc);
-				}
-				else
-					ic.SetUnitDestinations();
+				ic.SetUnitDestinations();
 			}
 		}
 	
