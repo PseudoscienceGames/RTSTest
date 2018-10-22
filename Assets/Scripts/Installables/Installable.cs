@@ -13,7 +13,12 @@ public class Installable : MonoBehaviour
 	public int workRequired;
 	public Material mat;
 
-	public void Build(int amt)
+	private void Start()
+	{
+		BuilderController.instance.blueprints.Add(this);
+	}
+
+	public bool Build(int amt)
 	{
 		if (blueprint)
 		{
@@ -23,6 +28,7 @@ public class Installable : MonoBehaviour
 		}
 		else
 			Debug.LogError("Why are we building if " + gameObject.name + " is already built?");
+		return !blueprint;
 	}
 
 	public void Finish()

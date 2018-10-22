@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
 {
-	public int stats;
 	public Vector3 destination;
 
 	public void SetDestination(Vector3 pos)
