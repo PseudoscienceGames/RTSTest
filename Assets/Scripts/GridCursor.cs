@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class GridCursor : MonoBehaviour
 {
+	public Vector2Int gridLoc;
+
 	public static GridCursor instance;
-	public Vector3Int gridLoc;
+
 	void Awake() { instance = this; }
 
-	private void Update()
+	void Update()
 	{
-		Vector3 pos = InputController.instance.FindMouseMapPos();
-		gridLoc.x = Mathf.RoundToInt(pos.x);
-		gridLoc.y = Mathf.RoundToInt(pos.y);
-		gridLoc.z = Mathf.RoundToInt(pos.z);
-		pos = gridLoc;
-	
-		transform.position = pos;
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Terrain")
+		{
+			transform.position = HexGrid.GridToWorld(HexGrid.RoundToGrid(hit.point), 0);
+			gridLoc = HexGrid.RoundToGrid(transform.position);
+		}
 	}
 }

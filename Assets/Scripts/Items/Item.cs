@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-	public Vector3Int gridLoc;
+	public Vector2Int gridLoc;
 	public int itemIndex;
 
 	public void Start()

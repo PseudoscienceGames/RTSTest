@@ -15,7 +15,7 @@ public class Selectable : MonoBehaviour
 		screenPoint = Camera.main.WorldToScreenPoint(transform.position + Vector3.up);
 	}
 
-	void Start ()
+	void Start()
 	{
 		GameObject.Find("Cam").GetComponent<InputController>().selectables.Add(this);
 		myMarker = (Instantiate(Resources.Load("SelectionMarker")) as GameObject).GetComponent<SelectionMarker>();
@@ -25,7 +25,7 @@ public class Selectable : MonoBehaviour
 
 	public void ChangeState(SelectionState s)
 	{
-		if(s == SelectionState.Highlighted)
+		if (s == SelectionState.Highlighted)
 		{
 			myMarker.Highlight();
 			sState = SelectionState.Highlighted;
