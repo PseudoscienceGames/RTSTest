@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChunkMesh : MonoBehaviour{
+	public int num;
+	public bool all;
 	Dictionary<Vector2Int, int> tiles = new Dictionary<Vector2Int, int>();
 	public List<Vector3> verts = new List<Vector3>();
 	public List<int> tris = new List<int>();
@@ -40,38 +42,42 @@ public class ChunkMesh : MonoBehaviour{
 				tIndex += Mathf.RoundToInt(Mathf.Pow(2, i));
 		}
 		//Debug.Log(tile + " " + tiles[tile] + " " + tIndex);
-		//uvs.Add(new Vector2(0.5f, 1f));
-		//uvs.Add(new Vector2(1f, 1f));
-		//uvs.Add(new Vector2(1f, 0f));
-		//uvs.Add(new Vector2(0.5f, 0f));
-		//uvs.Add(new Vector2(0f, 0f));
-		//uvs.Add(new Vector2(0f, 1f));
-
 		uvs.Add(new Vector2(0.5f, 1f));
-		uvs.Add(new Vector2(0.75f, 0.75f));
-		uvs.Add(new Vector2(0.75f, 0.25f));
+		uvs.Add(new Vector2(1f, 1f));
+		uvs.Add(new Vector2(1f, 0f));
 		uvs.Add(new Vector2(0.5f, 0f));
-		uvs.Add(new Vector2(0.25f, 0.25f));
-		uvs.Add(new Vector2(0.25f, 0.75f));
+		uvs.Add(new Vector2(0f, 0f));
+		uvs.Add(new Vector2(0f, 1f));
 
-		List<int> z1 = new List<int>() { 1, 3, 8, 9, 30, 33, 51, 54, 28, 35 };
-		List<int> z2 = new List<int>() { 48, 4, 15, 12, 27, 32, 36,// 57 };//14 49
-		List<int> z3 = new List<int>() { 2, 6, 16, 18, 24, 39, 45, 60, 14 };//7 56
+		//uvs.Add(new Vector2(0.5f, 1f));
+		//uvs.Add(new Vector2(0.75f, 0.75f));
+		//uvs.Add(new Vector2(0.75f, 0.25f));
+		//uvs.Add(new Vector2(0.5f, 0f));
+		//uvs.Add(new Vector2(0.25f, 0.25f));
+		//uvs.Add(new Vector2(0.25f, 0.75f));
+
+		List<int> z1 = new List<int>() { 1, 8, 9, 30, 33, 51, 54, 28, 35, 12 };
+		List<int> z2 = new List<int>() { 48, 4, 6, 15, 27, 32, 36, 57, 14, 49 };
+		List<int> z3 = new List<int>() { 2, 3, 16, 18, 24, 39, 45, 60, 7, 56 };
 		List<int> t1 = new List<int>() { 10, 13, 19, 21, 22, 23, 25, 29, 31, 34, 37, 40, 52, 53, 55, 61 };
 		List<int> t2 = new List<int>() { 0, 5, 11, 17, 20, 26, 38, 41, 42, 43, 44, 46, 47, 50, 58, 59, 62, 63 };
 
-		if (z1.Contains(tIndex))
-			AddTris(1);
-		else if (z2.Contains(tIndex))
-			AddTris(2);
-		else if (z3.Contains(tIndex))
-			AddTris(0);
-		else if (t1.Contains(tIndex))
-			AddTris(4);
-		else if (t2.Contains(tIndex))
-			AddTris(3);
+		if (tIndex == num || all)
+		{
+			if (z1.Contains(tIndex))
+				AddTris(1);
+			else if (z2.Contains(tIndex))
+				AddTris(2);
+			else if (z3.Contains(tIndex))
+				AddTris(0);
+			else if (t1.Contains(tIndex))
+				AddTris(4);
+			else if (t2.Contains(tIndex))
+				AddTris(3);
+		}
 		else
 			AddTris(5);
+		
 
 	}
 
@@ -105,7 +111,7 @@ public class ChunkMesh : MonoBehaviour{
 					hds.Add(1);
 				else
 					hds.Add(2);
-				//Debug.Log(hex + " " + hds[0] + " " + hds[1] + " " + hds[2]);
+				Debug.Log(hex + " " + hds[0] + " " + hds[1] + " " + hds[2]);
 				if ((hds[0] == 0 && hds[1] != 0) || hds[0] == 1 && hds[1] == 2 && hds[2] == 2)
 					loc = Vector3.Lerp(loc, worldLoc3, 0.25f);
 				else if ((hds[1] == 0 && hds[2] != 0) || hds[1] == 1 && hds[0] == 2 && hds[2] == 2)
