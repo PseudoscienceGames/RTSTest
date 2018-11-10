@@ -330,7 +330,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 1
-  m_Color: {r: 1, g: 1, b: 0.92156863, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.82
   m_Range: 10
   m_SpotAngle: 30
@@ -2410,7 +2410,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: b070a14bf678bcf4c80937b515956bb6, type: 2}
+  - {fileID: 2100000, guid: 982a6c7fb47fe2f4a80a1dff0a909cfa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2446,6 +2446,9 @@ MonoBehaviour:
   uvs: []
   triNum: 0
   mesh: {fileID: 0}
+  colapse: 0
+  expand: 1
+  deform: 1
 --- !u!114 &1774481297
 MonoBehaviour:
   m_ObjectHideFlags: 0
