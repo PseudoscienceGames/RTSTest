@@ -7,6 +7,7 @@ public static class HexGrid
 	public static float hexRadius = 2f * 0.5773502691896258f;
 	public static float sideRadius = 1f;
 	public static float tileHeight = 2f/3f;
+	public static float sqrt3 = Mathf.Sqrt(3);
 
 	//Finds distance in number of hexes between the hex at grid location fromLoc and the hex at toLoc
 	public static int FindFlatGridDistance(Vector2Int fromLoc, Vector2Int toLoc)
@@ -21,7 +22,7 @@ public static class HexGrid
 	public static Vector3 GridToWorld(Vector2Int gridLoc, int height)
 	{
 		int tempZ = (int)(0 - (gridLoc.x + gridLoc.y));
-		Vector3 worldPos = new Vector3(0.5f * (gridLoc.y - tempZ) * Mathf.Sqrt(3) * hexRadius, height * tileHeight, 1.5f * gridLoc.x * hexRadius);
+		Vector3 worldPos = new Vector3(0.5f * (gridLoc.y - tempZ) * sqrt3 * hexRadius, height * tileHeight, 1.5f * gridLoc.x * hexRadius);
 		return worldPos;
 	}
 
@@ -30,7 +31,7 @@ public static class HexGrid
 	{
 		Vector2Int gridLoc = Vector2Int.zero;
 		gridLoc.x = Mathf.RoundToInt(worldLoc.z / (1.5f * hexRadius));
-		gridLoc.y = Mathf.RoundToInt((worldLoc.x / (Mathf.Sqrt(3) * hexRadius)) - (gridLoc.x * 0.5f));// - (gridLoc.x * hexRadius * Mathf.Sqrt(3) * 0.5f));
+		gridLoc.y = Mathf.RoundToInt((worldLoc.x / (sqrt3 * hexRadius)) - (gridLoc.x * 0.5f));// - (gridLoc.x * hexRadius * sqrt3 * 0.5f));
 		return gridLoc;
 	}
 
@@ -68,6 +69,15 @@ public static class HexGrid
 		if (moveDir == 5)
 			moveTo.y--;
 		return moveTo;
+	}
+
+	public static Vector2Int MoveTo(Vector2Int gridLoc, int moveDir, int distance)
+	{
+		for (int i = 0; i < distance; i++)
+		{
+			gridLoc = MoveTo(gridLoc, moveDir);
+		}
+		return gridLoc;
 	}
 
 	public static List<Vector2Int> FindAdjacentGridLocs(Vector2Int gridLoc)

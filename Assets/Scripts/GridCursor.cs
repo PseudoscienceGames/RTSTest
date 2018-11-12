@@ -16,7 +16,8 @@ public class GridCursor : MonoBehaviour
 		RaycastHit hit;
 		if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Terrain")
 		{
-			transform.position = HexGrid.GridToWorld(HexGrid.RoundToGrid(hit.point), 0);
+			Vector2Int loc = HexGrid.RoundToGrid(hit.point);
+			transform.position = HexGrid.GridToWorld(loc, TerrainManager.instance.GetHeight(loc));
 			gridLoc = HexGrid.RoundToGrid(transform.position);
 		}
 	}
