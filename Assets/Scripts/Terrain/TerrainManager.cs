@@ -27,7 +27,7 @@ public class TerrainManager : MonoBehaviour {
 	public int GetHeight(Vector2Int tile)
 	{
 		Vector3 worldLoc = HexGrid.GridToWorld(tile, 0);
-		int h = Mathf.FloorToInt(Mathf.PerlinNoise((worldLoc.x + 500) / 10f, (worldLoc.z + 500) / 10f) * maxHeight);
+		int h = Mathf.RoundToInt(Mathf.PerlinNoise((worldLoc.x + 500) / 10f, (worldLoc.z + 500) / 10f) * maxHeight);
 		return h;
 	}
 
