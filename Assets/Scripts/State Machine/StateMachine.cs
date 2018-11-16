@@ -32,7 +32,7 @@ public class StateMachine : MonoBehaviour
 		CurrentState = GetState<T>();
 		CurrentState.enabled = true;
 		CurrentState.Enter();
-		Debug.Log(GetState<T>().ToString());
+		//Debug.Log(GetState<T>().ToString());
 	}
 
 	protected virtual void Transition (State value)

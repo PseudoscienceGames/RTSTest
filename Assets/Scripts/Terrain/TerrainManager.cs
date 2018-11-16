@@ -103,15 +103,13 @@ public class TerrainManager : MonoBehaviour {
 	void AddChunks(Vector2Int gridLoc)
 	{
 		st.Clear();
-		Debug.Log("S");
 		List<Vector2Int> locs = new List<Vector2Int>();
 		locs.Add(gridLoc);
 		st.Add(gridLoc);
-		//for (int i = 0; i < 6; i++)
-		//	locs.Add(MoveChunk(gridLoc, i));
+		for (int i = 0; i < 6; i++)
+			locs.Add(MoveChunk(gridLoc, i));
 		foreach (Vector2Int loc in locs)
 		{
-			Debug.Log(loc);
 			GameObject chunk = Instantiate(chunkPrefab, HexGrid.GridToWorld(loc, 0), Quaternion.identity) as GameObject;
 			chunks.Add(loc, chunk.GetComponent<ChunkData>());
 		}

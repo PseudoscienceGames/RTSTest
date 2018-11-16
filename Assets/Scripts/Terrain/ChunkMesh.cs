@@ -20,10 +20,10 @@ public class ChunkMesh : MonoBehaviour{
 		AddTiles();
 		CalcTileMeshData();
 		foreach(MeshTile tile in meshTiles.Values){
-			verts.AddRange(tile.verts);
-			foreach(int tri in tile.tris){
+			foreach(Vector3 vert in tile.verts)
+				verts.Add(vert - transform.position);
+			foreach(int tri in tile.tris)
 				tris.Add(tri + triNum);
-			}
 			triNum += 6;
 		}
 		ExpandDoubles();

@@ -1469,8 +1469,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   st: []
-  chunkRadius: 10
-  maxHeight: 8
+  chunkRadius: 20
+  maxHeight: 10
   loadTracker: {fileID: 1006181348}
   ltGridLoc: {x: 0, y: 0}
   centerChunk: {x: 0, y: 0}

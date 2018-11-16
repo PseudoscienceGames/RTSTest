@@ -63,88 +63,86 @@ public class MeshTile
 				(h3 == h && h2 == h - 1)) ||
 				(h2 == h - 1 && h3 < h2) ||
 				(h3 == h - 1 && h2 < h3))
-			{ vert.y -= HexGrid.tileHeight; vh.Add(h - 1); }
+			{ vert.y -= HexGrid.tileHeight; vh.Add(-1); }
 			else if ((h2 == h + 1 && h3 == h + 2) ||
 				(h2 == h + 2 && h3 == h + 1))
-			{ vert.y += HexGrid.tileHeight; vh.Add(h + 1); }
-			else vh.Add(h);
+			{ vert.y += HexGrid.tileHeight; vh.Add(1); }
+			else vh.Add(0);
 			verts.Add(vert);
 		}
 	}
 	public void CalcTopo()
 	{
-		List<bool> level = new List<bool>();
-		string levels = "";
+		int levels = 0;
 		for (int i = 0; i < 6; i++)
-		{
-			if (vh[i] == vh[HexGrid.MoveDirFix(i + 1)])
-				level.Add(true);
-			else
-				level.Add(false);
-			levels += level[level.Count - 1];
-		}
-		//Debug.Log(levels);
+			levels += Mathf.RoundToInt((vh[i] + 1) * Mathf.Pow(3, i));
+		Debug.Log(levels);
 
-		if(level[0] && level[3])
-		{
-			//DO STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		}
-		else if (level[1] && level[4])
-		{
-			//DO STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		}
-		else if (level[2] && level[5])
-		{
-			//DO STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		}
-		else if (level[0] && level[1])
-		{
-			tris.Add(0);
-			tris.Add(1);
-			tris.Add(2);
-			if(level[2])
+		//if(level[0] && level[3] )
+		//{
+			int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
+			for (int i = 0; i < t.Length; i++)
 			{
-				tris.Add(0);
-				tris.Add(2);
-				tris.Add(3);
-				if (level[5])
-				{
-					tris.Add(0);
-					tris.Add(3);
-					tris.Add(5);
-					tris.Add(3);
-					tris.Add(4);
-					tris.Add(5);
-				}
-				else
-				{
-					tris.Add(0);
-					tris.Add(3);
-					tris.Add(4);
-					tris.Add(0);
-					tris.Add(4);
-					tris.Add(5);
-				}
+				tris.Add(t[i]);
 			}
-			else if(level[5])
-			{
-				tris.Add(0);
-				tris.Add(2);
-				tris.Add(5);
-			}
-			else if(level[3] && level[4])
-			{
-				tris.Add(0);
-				tris.Add(2);
-				tris.Add(3);
-				tris.Add(0);
-				tris.Add(3);
-				tris.Add(5);
-				tris.Add(3);
-				tris.Add(4);
-				tris.Add(5);
-			}
-		}
+			//DO STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//}
+		//else if (level[1] && level[4])
+		//{
+		//	//DO STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//}
+		//else if (level[2] && level[5])
+		//{
+		//	//DO STUFF HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//}
+		//else if (level[0] && level[1])
+		//{
+		//	tris.Add(0);
+		//	tris.Add(1);
+		//	tris.Add(2);
+		//	if(level[2])
+		//	{
+		//		tris.Add(0);
+		//		tris.Add(2);
+		//		tris.Add(3);
+		//		if (level[5])
+		//		{
+		//			tris.Add(0);
+		//			tris.Add(3);
+		//			tris.Add(5);
+		//			tris.Add(3);
+		//			tris.Add(4);
+		//			tris.Add(5);
+		//		}
+		//		else
+		//		{
+		//			tris.Add(0);
+		//			tris.Add(3);
+		//			tris.Add(4);
+		//			tris.Add(0);
+		//			tris.Add(4);
+		//			tris.Add(5);
+		//		}
+		//	}
+		//	else if(level[5])
+		//	{
+		//		tris.Add(0);
+		//		tris.Add(2);
+		//		tris.Add(5);
+		//	}
+		//	else if(level[3] && level[4])
+		//	{
+		//		tris.Add(0);
+		//		tris.Add(2);
+		//		tris.Add(3);
+		//		tris.Add(0);
+		//		tris.Add(3);
+		//		tris.Add(5);
+		//		tris.Add(3);
+		//		tris.Add(4);
+		//		tris.Add(5);
+		//	}
+		//}
 		//if (true)//vh[0] == vh[1] && vh[1] == vh[2] && vh[3] != vh[0] && vh[5] != vh[1])
 		//{
 		//	tris.Add(0);
