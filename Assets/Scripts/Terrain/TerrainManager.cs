@@ -16,12 +16,18 @@ public class TerrainManager : MonoBehaviour {
 	public int minDis;
 	public int dis;
 	public GameObject chunkPrefab;
+	public List<int> t = new List<int>();
+	public bool topo;
 
 	private void Start()
 	{
 		AddChunks(Vector2Int.zero);
-		
-		
+		Invoke("S", 1);
+	}
+
+	void S()
+	{
+		t.Sort();
 	}
 
 	public int GetHeight(Vector2Int tile)
@@ -52,6 +58,13 @@ public class TerrainManager : MonoBehaviour {
 			if(minDis < HexGrid.FindFlatGridDistance(closestChunk, centerChunk))
 				MoveLoadTracker(closestChunk);
 
+		}
+		if(t.Count == 133)
+		{
+			string f = "";
+			foreach (int i in t)
+				f += i.ToString() + " ";
+			Debug.Log(f);
 		}
 	}
 
@@ -114,6 +127,7 @@ public class TerrainManager : MonoBehaviour {
 			chunks.Add(loc, chunk.GetComponent<ChunkData>());
 		}
 	}
+
 	void DeleteChunks()
 	{
 		foreach (KeyValuePair<Vector2Int, ChunkData> kvp in chunks)

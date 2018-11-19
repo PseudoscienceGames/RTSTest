@@ -110,6 +110,7 @@ public static class HexGrid
 				}
 			}
 		}
+		//Debug.Log(locs.Count);
 		return locs;
 	}
 }
