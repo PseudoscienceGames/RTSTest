@@ -13,7 +13,7 @@ public class ChunkData : MonoBehaviour {
 
 	private void Start() {
 		gridLoc = HexGrid.RoundToGrid(transform.position);
-		List<Vector2Int> t = HexGrid.FindWithinRadius(gridLoc, TerrainManager.instance.chunkRadius);
+		List<Vector2Int> t = HexGrid.FindWithinRadius(gridLoc, ChunkMath.chunkRadius);
 		for (int i = 0; i < t.Count; i++){
 			
 			tiles.Add(t[i]);

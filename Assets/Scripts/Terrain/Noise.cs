@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Noise {
 
-public static float FindHeight(float x, float y, int sd, float sc, int o, float p, float l)
+public static float FindHeight(float x, float y, int sd, float sc, int o, float p, float l, Vector2 of)
 	{
 		if (sc <= 0)
 			sc = 0.0001f;
@@ -18,7 +18,7 @@ public static float FindHeight(float x, float y, int sd, float sc, int o, float 
 			float sampleX = x / sc * freq;
 			float sampleY = y / sc * freq;
 
-			float perlinValue = Mathf.PerlinNoise(sampleX, sampleY);
+			float perlinValue = Mathf.PerlinNoise(sampleX + of.x, sampleY + of.y);
 			noiseHeight += perlinValue * amp;
 
 			amp *= p;

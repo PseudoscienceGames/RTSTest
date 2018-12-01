@@ -21,7 +21,7 @@ public class MapGen : MonoBehaviour
 	{
 		Vector3 worldLoc = HexGrid.GridToWorld(gridLoc);
 
-		return Mathf.RoundToInt(Noise.FindHeight(worldLoc.x, worldLoc.z, seed, scale, octaves, persistance, lacunarity));
+		return Mathf.RoundToInt(Noise.FindHeight(worldLoc.x, worldLoc.z, seed, scale, octaves, persistance, lacunarity, offset));
 	}
 
 	private void Start()
@@ -30,7 +30,7 @@ public class MapGen : MonoBehaviour
 		
 		foreach (Vector2Int chunkLoc in chunkLocs)
 		{
-			GameObject chunk = Instantiate(Resources.Load("Chunk")) as GameObject;
+			GameObject chunk = Instantiate(Resources.Load("ChunkPrefab")) as GameObject;
 			chunk.transform.position = HexGrid.GridToWorld(chunkLoc, 0);
 			chunk.transform.SetParent(transform);
 			chunk.name = "Chunk " + chunkLoc;

@@ -60,7 +60,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 982a6c7fb47fe2f4a80a1dff0a909cfa, type: 2}
+  - {fileID: 2100000, guid: b070a14bf678bcf4c80937b515956bb6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,7 +95,7 @@ MeshCollider:
   m_GameObject: {fileID: 1741128354534504}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
@@ -136,13 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f176a72540c94a54f8da01ba493363b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  num: 14
-  all: 1
   verts: []
   tris: 
   uvs: []
   triNum: 0
   mesh: {fileID: 0}
-  colapse: 0
-  expand: 1
-  deform: 0

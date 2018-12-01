@@ -20,7 +20,7 @@ public class MeshTile
 	{
 		cm = c;
 		gridLoc = g;
-		h = TerrainManager.instance.GetHeight(gridLoc);
+		h = MapGen.instance.GetHeight(gridLoc);
 		worldLoc = HexGrid.GridToWorld(gridLoc, h);
 	}
 
@@ -39,7 +39,7 @@ public class MeshTile
 			}
 			else
 			{
-				h2 = TerrainManager.instance.GetHeight(gridLoc2);
+				h2 = MapGen.instance.GetHeight(gridLoc2);
 				worldLoc2 = HexGrid.GridToWorld(gridLoc2, h2);
 			}
 			Vector2Int gridLoc3 = HexGrid.MoveTo(gridLoc, i + 1);
@@ -52,45 +52,43 @@ public class MeshTile
 			}
 			else
 			{
-				h3 = TerrainManager.instance.GetHeight(gridLoc3);
+				h3 = MapGen.instance.GetHeight(gridLoc3);
 				worldLoc3 = HexGrid.GridToWorld(gridLoc3, h3);
 			}
 
 			Vector3 vert = (worldLoc + worldLoc2 + worldLoc3) / 3f;
 			vert.y = h * HexGrid.tileHeight;
-			if (TerrainManager.instance.topo)
+			if ((h2 == h - 1 && (h3 == h - 1 || h3 == h - 2)) ||
+				(h2 == h && h3 == h - 1) ||
+				((h3 == h - 1 && (h2 == h - 1 || h2 == h - 2)) ||
+				(h3 == h && h2 == h - 1)) ||
+				(h2 == h - 1 && h3 < h2) ||
+				(h3 == h - 1 && h2 < h3) ||
+				(h3 == h - 1 && h2 > h + 1) ||
+				(h2 == h - 1 && h3 > h + 1))
 			{
-				if ((h2 == h - 1 && (h3 == h - 1 || h3 == h - 2)) ||
-					(h2 == h && h3 == h - 1) ||
-					((h3 == h - 1 && (h2 == h - 1 || h2 == h - 2)) ||
-					(h3 == h && h2 == h - 1)) ||
-					(h2 == h - 1 && h3 < h2) ||
-					(h3 == h - 1 && h2 < h3) ||
-					(h3 == h - 1 && h2 > h + 1) ||
-					(h2 == h - 1 && h3 > h + 1))
-				{
-					vert.y -= HexGrid.tileHeight;
-					vh.Add(-1);
-				}
-				else if ((h2 == h + 1 && h3 == h + 2) ||
-					(h2 == h + 2 && h3 == h + 1))
+				vert.y -= HexGrid.tileHeight;
+				vh.Add(-1);
+			}
+			else if ((h2 == h + 1 && h3 == h + 2) ||
+				(h2 == h + 2 && h3 == h + 1))
+			{
+				vert.y += HexGrid.tileHeight;
+				vh.Add(1);
+			}
+			else if (h2 == h + 2 && h3 == h + 2)
+			{
+				int h4 = MapGen.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i + 2)));
+				int h5 = MapGen.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i - 2)));
+				if ((h4 == h + 1 && h5 == h + 1))
 				{
 					vert.y += HexGrid.tileHeight;
 					vh.Add(1);
 				}
-				else if (h2 == h + 2 && h3 == h + 2)
-				{
-					int h4 = TerrainManager.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i + 2)));
-					int h5 = TerrainManager.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i - 2)));
-					if ((h4 == h + 1 && h5 == h + 1))
-					{
-						vert.y += HexGrid.tileHeight;
-						vh.Add(1);
-					}
-					else vh.Add(0);
-				}
 				else vh.Add(0);
 			}
+			else vh.Add(0);
+			
 			verts.Add(vert);
 		}
 		uvs.Add(new Vector2(0.5f, 1f));

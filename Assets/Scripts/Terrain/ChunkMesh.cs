@@ -28,8 +28,8 @@ public class ChunkMesh : MonoBehaviour{
 			triNum += 6;
 			foreach (Vector2 uv in tile.uvs)
 				uvs.Add(uv);
-			if (!TerrainManager.instance.t.Contains(tile.tN))
-				TerrainManager.instance.t.Add(tile.tN);
+			//if (!TerrainManager.instance.t.Contains(tile.tN))
+			//	TerrainManager.instance.t.Add(tile.tN);
 		}
 		ExpandDoubles();
 		mesh.vertices = verts.ToArray();
@@ -60,69 +60,73 @@ public class ChunkMesh : MonoBehaviour{
 	}
 	void DrawSide(MeshTile tile, int side)
 	{
+		MeshTile otherTile;
 		if (meshTiles.ContainsKey(HexGrid.MoveTo(tile.gridLoc, side)))
+			otherTile = meshTiles[HexGrid.MoveTo(tile.gridLoc, side)];
+		else
 		{
-			MeshTile otherTile = meshTiles[HexGrid.MoveTo(tile.gridLoc, side)];
-			Vector3 t1v1 = tile.verts[HexGrid.MoveDirFix(side - 1)];
-			Vector3 t2v1 = otherTile.verts[HexGrid.MoveDirFix(side + 3)];
-			Vector3 t1v2 = tile.verts[side];
-			Vector3 t2v2 = otherTile.verts[HexGrid.MoveDirFix(side + 2)];
+			otherTile = new MeshTile(this, HexGrid.MoveTo(tile.gridLoc, side));
+			otherTile.CalcVerts();
+		}
+		Vector3 t1v1 = tile.verts[HexGrid.MoveDirFix(side - 1)];
+		Vector3 t2v1 = otherTile.verts[HexGrid.MoveDirFix(side + 3)];
+		Vector3 t1v2 = tile.verts[side];
+		Vector3 t2v2 = otherTile.verts[HexGrid.MoveDirFix(side + 2)];
 
-			if (t1v1.y > t2v1.y && t1v2.y > t2v2.y)
-			{
-				verts.Add(t1v1 - transform.position);
-				verts.Add(t2v1 - transform.position);
-				verts.Add(t1v2 - transform.position);
-				verts.Add(t2v2 - transform.position);
-				tris.Add(triNum);
-				tris.Add(triNum + 1);
-				tris.Add(triNum + 2);
-				tris.Add(triNum + 2);
-				tris.Add(triNum + 1);
-				tris.Add(triNum + 3);
-				triNum += 4;
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
+		if (t1v1.y > t2v1.y && t1v2.y > t2v2.y)
+		{
+			verts.Add(t1v1 - transform.position);
+			verts.Add(t2v1 - transform.position);
+			verts.Add(t1v2 - transform.position);
+			verts.Add(t2v2 - transform.position);
+			tris.Add(triNum);
+			tris.Add(triNum + 1);
+			tris.Add(triNum + 2);
+			tris.Add(triNum + 2);
+			tris.Add(triNum + 1);
+			tris.Add(triNum + 3);
+			triNum += 4;
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
 
-			}
-			else if (t1v1.y > t2v1.y && t1v2.y <= t2v2.y)
-			{
-				verts.Add(t1v1 - transform.position);
-				verts.Add(t2v1 - transform.position);
-				verts.Add(t1v2 - transform.position);
-				verts.Add(t2v2 - transform.position);
-				tris.Add(triNum);
-				tris.Add(triNum + 1);
-				tris.Add(triNum + 2);
-				tris.Add(triNum + 2);
-				tris.Add(triNum + 1);
-				tris.Add(triNum + 3);
-				triNum += 4;
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
-			}
-			else if (t1v1.y <= t2v1.y && t1v2.y > t2v2.y)
-			{
-				verts.Add(t1v1 - transform.position);
-				verts.Add(t2v1 - transform.position);
-				verts.Add(t1v2 - transform.position);
-				verts.Add(t2v2 - transform.position);
-				tris.Add(triNum);
-				tris.Add(triNum + 1);
-				tris.Add(triNum + 2);
-				tris.Add(triNum + 2);
-				tris.Add(triNum + 1);
-				tris.Add(triNum + 3);
-				triNum += 4;
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
-				uvs.Add(new Vector2(0.5f, 0.5f));
-			}
+		}
+		else if (t1v1.y > t2v1.y && t1v2.y <= t2v2.y)
+		{
+			verts.Add(t1v1 - transform.position);
+			verts.Add(t2v1 - transform.position);
+			verts.Add(t1v2 - transform.position);
+			verts.Add(t2v2 - transform.position);
+			tris.Add(triNum);
+			tris.Add(triNum + 1);
+			tris.Add(triNum + 2);
+			tris.Add(triNum + 2);
+			tris.Add(triNum + 1);
+			tris.Add(triNum + 3);
+			triNum += 4;
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
+		}
+		else if (t1v1.y <= t2v1.y && t1v2.y > t2v2.y)
+		{
+			verts.Add(t1v1 - transform.position);
+			verts.Add(t2v1 - transform.position);
+			verts.Add(t1v2 - transform.position);
+			verts.Add(t2v2 - transform.position);
+			tris.Add(triNum);
+			tris.Add(triNum + 1);
+			tris.Add(triNum + 2);
+			tris.Add(triNum + 2);
+			tris.Add(triNum + 1);
+			tris.Add(triNum + 3);
+			triNum += 4;
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
+			uvs.Add(new Vector2(0.5f, 0.5f));
 		}
 	}
 

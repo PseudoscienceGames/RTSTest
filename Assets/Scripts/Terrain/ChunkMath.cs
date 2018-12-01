@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ChunkMath
 {
-	public static int chunkRadius = 32;
+	public static int chunkRadius = 24;
 	public static Vector2Int MoveChunk(Vector2Int gridLoc, int moveDir)
 	{
 		Vector2Int moveTo = gridLoc;
