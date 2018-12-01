@@ -28,7 +28,7 @@ public class MeshTile
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			
+
 			Vector2Int gridLoc2 = HexGrid.MoveTo(gridLoc, i);
 			int h2;
 			Vector3 worldLoc2;
@@ -55,7 +55,7 @@ public class MeshTile
 				h3 = TerrainManager.instance.GetHeight(gridLoc3);
 				worldLoc3 = HexGrid.GridToWorld(gridLoc3, h3);
 			}
-			
+
 			Vector3 vert = (worldLoc + worldLoc2 + worldLoc3) / 3f;
 			vert.y = h * HexGrid.tileHeight;
 			if (TerrainManager.instance.topo)
@@ -68,10 +68,27 @@ public class MeshTile
 					(h3 == h - 1 && h2 < h3) ||
 					(h3 == h - 1 && h2 > h + 1) ||
 					(h2 == h - 1 && h3 > h + 1))
-				{ vert.y -= HexGrid.tileHeight; vh.Add(-1); }
+				{
+					vert.y -= HexGrid.tileHeight;
+					vh.Add(-1);
+				}
 				else if ((h2 == h + 1 && h3 == h + 2) ||
 					(h2 == h + 2 && h3 == h + 1))
-				{ vert.y += HexGrid.tileHeight; vh.Add(1); }
+				{
+					vert.y += HexGrid.tileHeight;
+					vh.Add(1);
+				}
+				else if (h2 == h + 2 && h3 == h + 2)
+				{
+					int h4 = TerrainManager.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i + 2)));
+					int h5 = TerrainManager.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i - 2)));
+					if ((h4 == h + 1 && h5 == h + 1))
+					{
+						vert.y += HexGrid.tileHeight;
+						vh.Add(1);
+					}
+					else vh.Add(0);
+				}
 				else vh.Add(0);
 			}
 			verts.Add(vert);
@@ -164,8 +181,7 @@ public class MeshTile
 				Debug.Log("Not done 4");
 			}
 			//	//need more
-			}
-		here vvv
+		}
 		else if (heights[0].Count == 3)
 		{
 			if (heights[0][0] == HexGrid.MoveDirFix(heights[0][1] - 1) &&
@@ -190,11 +206,77 @@ public class MeshTile
 				foreach (int y in t)
 					tris.Add(HexGrid.MoveDirFix(y + x));
 			}
+			else if (heights[0][0] == HexGrid.MoveDirFix(heights[0][1] - 1) &&
+				heights[0][0] == HexGrid.MoveDirFix(heights[0][2] - 3))
+			{
+				int x = heights[0][1];
+				int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
+			else if (heights[0][0] == 0 && heights[0][1] == 2 && heights[0][2] == 5)
+			{
+				int x = heights[0][0];
+				int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
+			else if (heights[0][0] == 0 && heights[0][1] == 3 && heights[0][2] == 4)
+			{
+				int x = heights[0][2];
+				int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
+			else if (heights[0][0] == 1 && heights[0][1] == 4 && heights[0][2] == 5)
+			{
+				int x = heights[0][2];
+				int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
+			else if (heights[0][0] == HexGrid.MoveDirFix(heights[0][1] - 1) &&
+				heights[0][0] == HexGrid.MoveDirFix(heights[0][2] - 4))
+			{
+				int x = heights[0][1];
+				int[] t = { 0, 1, 2, 0, 3, 5, 0, 2, 3, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
+			else if (heights[0][0] == 0 && heights[0][1] == 3 && heights[0][2] == 5)
+			{
+				int x = heights[0][0];
+				int[] t = { 0, 1, 2, 0, 3, 5, 0, 2, 3, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
+			else if (heights[0][0] == 0 && heights[0][1] == 2 && heights[0][2] == 3)
+			{
+				int x = heights[0][2];
+				int[] t = { 0, 1, 2, 0, 3, 5, 0, 2, 3, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
+			else if (heights[0][0] == 2 && heights[0][1] == 4 && heights[0][2] == 5)
+			{
+				int x = heights[0][2];
+				int[] t = { 0, 1, 2, 0, 3, 5, 0, 2, 3, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+
+			}
+			else if (heights[0][0] == 1 && heights[0][1] == 3 && heights[0][2] == 4)
+			{
+				int x = heights[0][2];
+				int[] t = { 0, 1, 2, 0, 3, 5, 0, 2, 3, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
 			else
 			{
 				int[] t = { 0, 1, 2, 2, 3, 4, 4, 5, 0 };
 				tris.AddRange(t);
-				Debug.Log("Not done 3");
+				Debug.Log("Not done 3 " + levels);
 			}
 			//need more
 		}
@@ -202,15 +284,57 @@ public class MeshTile
 		{
 			if (heights[0][0] == HexGrid.MoveDirFix(heights[0][1] - 1))
 			{
+				if (heights[2].Count == 1 && (heights[2][0] == HexGrid.MoveDirFix(heights[0][0] + 3)))
+				{
+					int x = heights[0][0];
+					int[] t = { 0, 1, 2, 0, 2, 5, 2, 4, 5, 2, 3, 4 };
+					foreach (int y in t)
+						tris.Add(HexGrid.MoveDirFix(y + x));
+				}
+				else
+				{
+					int x = heights[0][0];
+					int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
+					foreach (int y in t)
+						tris.Add(HexGrid.MoveDirFix(y + x));
+				}
+			}
+			else if (heights[0][0] == 0 && heights[0][1] == 5)
+			{
+				if (heights[2].Count == 1 && (heights[2][0] == HexGrid.MoveDirFix(heights[0][1] + 3)))
+				{
+					int x = heights[0][1];
+					int[] t = { 0, 1, 2, 0, 2, 5, 2, 4, 5, 2, 3, 4 };
+					foreach (int y in t)
+						tris.Add(HexGrid.MoveDirFix(y + x));
+				}
+				else
+				{
+					int x = heights[0][1];
+					int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
+					foreach (int y in t)
+						tris.Add(HexGrid.MoveDirFix(y + x));
+				}
+			}
+			//==========================REMOVE THIS CHUNK BY MAKING THE BACK VERT GO UP 2==================================================
+			else if (heights[0][0] == HexGrid.MoveDirFix(heights[0][1] - 2))
+			{
 				int x = heights[0][0];
 				int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
 				foreach (int y in t)
 					tris.Add(HexGrid.MoveDirFix(y + x));
 			}
-			else if (heights[0][0] == 0 && heights[0][1] == 5)
+			else if ((heights[0][0] == 0 && heights[0][1] == 4) || (heights[0][0] == 1 && heights[0][1] == 5))
 			{
 				int x = heights[0][1];
 				int[] t = { 0, 1, 2, 0, 2, 5, 2, 3, 5, 3, 4, 5 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}//==============================================================================================================================
+			else if (heights[0][0] == HexGrid.MoveDirFix(heights[0][1] - 3))
+			{
+				int x = heights[0][0];
+				int[] t = { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5 };
 				foreach (int y in t)
 					tris.Add(HexGrid.MoveDirFix(y + x));
 			}
@@ -218,9 +342,8 @@ public class MeshTile
 			{
 				int[] t = { 0, 1, 2, 2, 3, 4, 4, 5, 0 };
 				tris.AddRange(t);
-				Debug.Log("Not done 2");
+				Debug.Log("Not done 2 " + levels);
 			}
-			//need more
 		}
 		else if (heights[0].Count == 1)
 		{
@@ -231,13 +354,68 @@ public class MeshTile
 				foreach (int y in t)
 					tris.Add(HexGrid.MoveDirFix(y + x));
 			}
+			else if (heights[1].Count == 4)
+			{
+				if (heights[2][0] != HexGrid.MoveDirFix(heights[0][0] + 3))
+				{
+					int x = heights[0][0] + 1;
+					int[] t = { 0, 1, 2, 2, 3, 4, 4, 5, 0, 0, 2, 4 };
+					foreach (int y in t)
+						tris.Add(HexGrid.MoveDirFix(y + x));
+				}
+				else
+				{
+					int x = heights[0][0];
+					int[] t = { 0, 1, 5, 5, 1, 2, 5, 2, 4, 2, 3, 4 };
+					foreach (int y in t)
+						tris.Add(HexGrid.MoveDirFix(y + x));
+				}
+
+			}
+			else if (heights[1].Count == 3)
+			{
+				if (heights[1].Contains(HexGrid.MoveDirFix(heights[0][0] + 1)) &&
+					heights[1].Contains(HexGrid.MoveDirFix(heights[0][0] - 1)))
+				{
+					if (heights[1].Contains(HexGrid.MoveDirFix(heights[0][0] + 2)))
+					{
+						int x = heights[0][0];
+						int[] t = { 0, 1, 5, 5, 1, 2, 5, 2, 4, 2, 3, 4 };
+						foreach (int y in t)
+							tris.Add(HexGrid.MoveDirFix(y + x));
+					}
+					else if (heights[1].Contains(HexGrid.MoveDirFix(heights[0][0] - 2)))
+					{
+						int x = heights[0][0];
+						int[] t = { 0, 1, 5, 1, 2, 4, 1, 4, 5, 2, 3, 4 };
+						foreach (int y in t)
+							tris.Add(HexGrid.MoveDirFix(y + x));
+					}
+
+				}
+				else
+				{
+					int x = heights[0][0];
+					int[] t = { 0, 1, 5, 5, 1, 2, 5, 2, 4, 2, 3, 4 };
+					foreach (int y in t)
+						tris.Add(HexGrid.MoveDirFix(y + x));
+					Debug.Log("c");
+				}
+			}
+			else if (heights[1].Count == 2)
+			{
+				int x = heights[0][0];
+				int[] t = { 0, 1, 5, 5, 1, 2, 5, 2, 4, 2, 3, 4 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
+			}
 			else
 			{
-				int[] t = { 0, 1, 2, 2, 3, 4, 4, 5, 0 };
-				tris.AddRange(t);
-				Debug.Log("Not done1");
+				int x = heights[0][0];
+				int[] t = { 0, 1, 5, 5, 1, 2, 5, 2, 4, 2, 3, 4 };
+				foreach (int y in t)
+					tris.Add(HexGrid.MoveDirFix(y + x));
 			}
-			//need more
 		}
 		tN = levels;
 	}

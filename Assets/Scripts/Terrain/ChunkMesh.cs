@@ -85,10 +85,6 @@ public class ChunkMesh : MonoBehaviour{
 				uvs.Add(new Vector2(0.5f, 0.5f));
 				uvs.Add(new Vector2(0.5f, 0.5f));
 				uvs.Add(new Vector2(0.5f, 0.5f));
-				//uvs.Add(new Vector2(0.75f, 0.75f));
-				//uvs.Add(new Vector2(0.75f, 0.25f));
-				//uvs.Add(new Vector2(0.25f, 0.25f));
-				//uvs.Add(new Vector2(0.25f, 0.75f));
 
 			}
 			else if (t1v1.y > t2v1.y && t1v2.y <= t2v2.y)

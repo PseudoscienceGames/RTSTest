@@ -25,9 +25,13 @@ public static class HexGrid
 		Vector3 worldPos = new Vector3(0.5f * (gridLoc.y - tempZ) * sqrt3 * hexRadius, height * tileHeight, 1.5f * gridLoc.x * hexRadius);
 		return worldPos;
 	}
+	public static Vector3 GridToWorld(Vector2Int gridLoc)
+	{
+		return GridToWorld(gridLoc, 0);
+	}
 
-	//Takes world location and converts it to grid location
-	public static Vector2Int RoundToGrid(Vector3 worldLoc)
+		//Takes world location and converts it to grid location
+		public static Vector2Int RoundToGrid(Vector3 worldLoc)
 	{
 		Vector2Int gridLoc = Vector2Int.zero;
 		gridLoc.x = Mathf.RoundToInt(worldLoc.z / (1.5f * hexRadius));

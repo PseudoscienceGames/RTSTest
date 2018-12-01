@@ -19,22 +19,18 @@ public class TerrainManager : MonoBehaviour {
 	public List<int> t = new List<int>();
 	public bool topo;
 
-	private void Start()
-	{
-		AddChunks(Vector2Int.zero);
-		Invoke("S", 1);
-	}
-
-	void S()
-	{
-		t.Sort();
-	}
+	public int seed;
+	public float scale;
+	public int octaves;
+	public float persistance;
+	public float lacunarity;
+	public Vector2 offset;
 
 	public int GetHeight(Vector2Int tile)
 	{
 		Vector3 worldLoc = HexGrid.GridToWorld(tile, 0);
-		int h = Mathf.RoundToInt(Mathf.PerlinNoise((worldLoc.x + 500) / 10f, (worldLoc.z + 500) / 10f) * maxHeight);
-		return h;
+		float h = Noise.FindHeight(worldLoc.x, worldLoc.z, seed, scale, octaves, persistance, lacunarity);
+		return Mathf.RoundToInt(h);
 	}
 
 	private void Update()
@@ -119,8 +115,8 @@ public class TerrainManager : MonoBehaviour {
 		List<Vector2Int> locs = new List<Vector2Int>();
 		locs.Add(gridLoc);
 		st.Add(gridLoc);
-		for (int i = 0; i < 6; i++)
-			locs.Add(MoveChunk(gridLoc, i));
+		//for (int i = 0; i < 6; i++)
+		//	locs.Add(MoveChunk(gridLoc, i));
 		foreach (Vector2Int loc in locs)
 		{
 			GameObject chunk = Instantiate(chunkPrefab, HexGrid.GridToWorld(loc, 0), Quaternion.identity) as GameObject;
