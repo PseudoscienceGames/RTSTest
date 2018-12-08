@@ -117,4 +117,31 @@ public static class HexGrid
 		//Debug.Log(locs.Count);
 		return locs;
 	}
+
+	public static List<Vector2Int> StraightPath(Vector2Int from, Vector2Int to)
+	{
+
+		List<Vector2Int> path = new List<Vector2Int>();
+		Vector2Int at = new Vector2Int(from.x, from.y);
+		while (at != to)
+		{
+			path.Add(at);
+			Vector3 toWorld = GridToWorld(to);
+			
+			float distance = Vector3.Distance(GridToWorld(from), toWorld) + 1000;
+			Vector2Int closest = Vector2Int.zero;
+			for (int i = 0; i < 6; i++)
+			{
+				Vector2Int adjLoc = MoveTo(at, i);
+				float dis = Vector3.Distance(GridToWorld(adjLoc), toWorld);
+				if (dis < distance)
+				{
+					distance = dis;
+					closest = adjLoc;
+				}
+			}
+			at = closest;
+		}
+		return path;
+	}
 }

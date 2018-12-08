@@ -28,8 +28,6 @@ public class ChunkMesh : MonoBehaviour{
 			triNum += 6;
 			foreach (Vector2 uv in tile.uvs)
 				uvs.Add(uv);
-			//if (!TerrainManager.instance.t.Contains(tile.tN))
-			//	TerrainManager.instance.t.Add(tile.tN);
 		}
 		ExpandDoubles();
 		mesh.vertices = verts.ToArray();

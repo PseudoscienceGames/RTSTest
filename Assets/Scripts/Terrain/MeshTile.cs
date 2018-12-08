@@ -20,8 +20,8 @@ public class MeshTile
 	{
 		cm = c;
 		gridLoc = g;
-		h = MapGen.instance.GetHeight(gridLoc);
-		worldLoc = HexGrid.GridToWorld(gridLoc, h);
+		h = Island.instance.GetHeight(gridLoc);
+		worldLoc = HexGrid.GridToWorld(gridLoc, 0);
 	}
 
 	public void CalcVerts()
@@ -39,7 +39,7 @@ public class MeshTile
 			}
 			else
 			{
-				h2 = MapGen.instance.GetHeight(gridLoc2);
+				h2 = Island.instance.GetHeight(gridLoc2);
 				worldLoc2 = HexGrid.GridToWorld(gridLoc2, h2);
 			}
 			Vector2Int gridLoc3 = HexGrid.MoveTo(gridLoc, i + 1);
@@ -52,7 +52,7 @@ public class MeshTile
 			}
 			else
 			{
-				h3 = MapGen.instance.GetHeight(gridLoc3);
+				h3 = Island.instance.GetHeight(gridLoc3);
 				worldLoc3 = HexGrid.GridToWorld(gridLoc3, h3);
 			}
 
@@ -78,8 +78,8 @@ public class MeshTile
 			}
 			else if (h2 == h + 2 && h3 == h + 2)
 			{
-				int h4 = MapGen.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i + 2)));
-				int h5 = MapGen.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i - 2)));
+				int h4 = Island.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i + 2)));
+				int h5 = Island.instance.GetHeight(HexGrid.MoveTo(gridLoc, HexGrid.MoveDirFix(i - 2)));
 				if ((h4 == h + 1 && h5 == h + 1))
 				{
 					vert.y += HexGrid.tileHeight;

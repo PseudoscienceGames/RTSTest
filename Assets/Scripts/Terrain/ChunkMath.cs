@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class ChunkMath
 {
-	public static int chunkRadius = 24;
+	public static int chunkRadius = 2;
 	public static Vector2Int MoveChunk(Vector2Int gridLoc, int moveDir)
 	{
 		Vector2Int moveTo = gridLoc;
@@ -52,15 +52,16 @@ public static class ChunkMath
 	}
 
 	public static int FindChunkDistance(Vector2Int fromLoc, Vector2Int toLoc)
-	{
+	{//BROKE!!!================**=098))}{}{}{}{}
 		int tempFromZ = (int)(0 - (fromLoc.x + fromLoc.y));
 		int tempToZ = (int)(0 - (toLoc.x + toLoc.y));
 		int distance = (int)(Mathf.Abs(fromLoc.x - toLoc.x) + Mathf.Abs(fromLoc.y - toLoc.y) + Mathf.Abs(tempFromZ - tempToZ)) / 2;
-		return distance / chunkRadius;
+		return 0;// Mathf.RoundToInt((float)distance / (float)chunkRadius);
 	}
 
 	public static List<Vector2Int> FindChunksWithinRadius(Vector2Int gridLoc, int radius)
 	{
+		Vector3 worldLoc = HexGrid.GridToWorld(gridLoc);
 		List<Vector2Int> locs = new List<Vector2Int>();
 		List<Vector2Int> toTest = new List<Vector2Int>();
 		toTest.Add(gridLoc);
@@ -73,7 +74,7 @@ public static class ChunkMath
 				foreach(Vector2Int l in FindAdjacentChunks(testing))
 				{
 					if (!toTest.Contains(l) && !locs.Contains(l) &&
-						Vector3.Distance(HexGrid.GridToWorld(gridLoc), HexGrid.GridToWorld(l)) <= radius)
+						Vector3.Distance(worldLoc, HexGrid.GridToWorld(l)) <= radius)
 						toTest.Add(l);
 				}
 			}
@@ -89,5 +90,12 @@ public static class ChunkMath
 		for (int i = 0; i < 6; i++)
 			adjacentLocs.Add(MoveChunk(gridLoc, i));
 		return adjacentLocs;
+	}
+	public static Vector2Int FindNearestChunk(Vector2Int gridLoc)
+	{
+		int disFromOrign = HexGrid.FindFlatGridDistance(Vector2Int.zero, gridLoc);
+		
+
+		return gridLoc;//
 	}
 }
