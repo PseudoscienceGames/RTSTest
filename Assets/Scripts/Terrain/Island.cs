@@ -9,15 +9,13 @@ public class Island : MonoBehaviour
 
 	public int seed;
 	public int islandSize;
-	public int shrinkAmt;
-	public int growAmt;
+	public int carveAmt;
 
 	public List<Vector2Int> chunks = new List<Vector2Int>();
 	public List<ChunkData> chunkDatas = new List<ChunkData>();
 	public Dictionary<Vector2Int, int> tiles = new Dictionary<Vector2Int, int>();
 	public int tileCount;
 	public List<Vector2Int> land = new List<Vector2Int>();
-	public List<Vector2Int> coastTiles = new List<Vector2Int>();
 
 	public void Start()
 	{
@@ -25,28 +23,21 @@ public class Island : MonoBehaviour
 		if (islandSize < 7)
 			islandSize = 7;
 		Random.InitState(seed);
-		StartCoroutine(AddChunks());
+		GenIslandData();
 	}
-
-	public IEnumerator GenIslandData()
+	public void GenIslandData()
 	{
+		AddChunks();
 		AddTiles();
-		coastTiles = GetCoastTiles();
-		//Shrink(100);
-		//Shrink(20);
-		//Shrink(20);
-		Shrink2();
-		//AddNoise();
+		Carve();
+		Shrink();
+		Tent();
 		foreach (ChunkData cd in chunkDatas)
-		{
 			cd.GetComponent<ChunkMesh>().GenMesh();
-			yield return null;
-		}
 		tileCount = tiles.Count;
-		yield return null;
 	}
 
-	private IEnumerator AddChunks()
+	private void AddChunks()
 	{
 		List<Vector2Int> possLocs = new List<Vector2Int>();
 		chunks.Add(Vector2Int.zero);
@@ -59,7 +50,6 @@ public class Island : MonoBehaviour
 					possLocs.Add(adj);
 			}
 		}
-		yield return null;
 		while (chunks.Count < islandSize)
 		{
 			Vector2Int toAdd = possLocs[Mathf.RoundToInt(Random.Range(0, possLocs.Count - 1))];
@@ -84,7 +74,6 @@ public class Island : MonoBehaviour
 				possLocs.Remove(toAdd);
 			}
 		}
-		yield return null;
 		foreach (Vector2Int chunk in chunks)
 		{
 			GameObject chunkGO = Instantiate(Resources.Load("ChunkPrefab")) as GameObject;
@@ -94,10 +83,7 @@ public class Island : MonoBehaviour
 			cd.transform.position = HexGrid.GridToWorld(cd.gridLoc);
 			cd.transform.SetParent(transform);
 			cd.Initialize();
-			yield return null;
 		}
-		StartCoroutine(GenIslandData());
-		yield return null;
 	}
 	private void AddTiles()
 	{
@@ -105,141 +91,116 @@ public class Island : MonoBehaviour
 		{
 			foreach (Vector2Int gl in HexGrid.FindWithinRadius(chunk, ChunkMath.chunkRadius))
 			{
-				if (tiles.ContainsKey(gl))
-				{
-					Debug.Log("wtf?" + gl);
-				}
-				else
-				{
-					tiles.Add(gl, 0);
-					land.Add(gl);
-				}
+				tiles.Add(gl, 0);
+				land.Add(gl);
 			}
 		}
 	}
-	//private void Shrink(int amt)
-	//{
-	//	List<Vector2Int> possTiles = new List<Vector2Int>();
-	//	List<Vector2Int> coastTiles = new List<Vector2Int>();
-	//	int l = land.Count - 1;
-	//	while(coastTiles.Count == 0)
-	//	{
-	//		Vector2Int loc = land[l];
-	//		for (int i = 0; i < 6; i++)
-	//		{
-	//			if(!land.Contains(HexGrid.MoveTo(loc, i)))
-	//			{
-	//				coastTiles.Add(loc);
-	//				break;
-	//			}
-	//		}
-	//	}
-	//	Debug.Log(coastTiles[0]);
-	//	//foreach (Vector2Int gridLoc in land)
-	//	//{
-	//	//	bool edge = false;
-	//	//	for (int i = 0; i < 6; i++)
-	//	//	{
-	//	//		if (!land.Contains(HexGrid.MoveTo(gridLoc, i)))
-	//	//		{
-	//	//			edge = true;
-	//	//			break;
-	//	//		}
-	//	//	}
-	//	//	if (edge)
-	//	//		possTiles.Add(gridLoc);
-	//	//}
-	//	//List<int> toRemove = new List<int>();
-	//	//for (int i = 0; i < possTiles.Count; i++)
-	//	//	toRemove.Add(i);
-	//	//for (int i = 0; i < possTiles.Count * ((100f - amt) / 100f); i++)
-	//	//	toRemove.RemoveAt(Random.Range(0, toRemove.Count - 1));
-	//	//foreach (int gl in toRemove)
-	//	//{
-	//	//	tiles[possTiles[gl]] = -1;
-	//	//	if (land.Contains(possTiles[gl]))
-	//	//		land.Remove(possTiles[gl]);
-	//	//}
-	//}
+	private List<Vector2Int> GetEdgeTiles(List<Vector2Int> allTiles)
+	{
+		//find a coastal tile
+		int index = allTiles.Count - 1;
+		List<Vector2Int> toCheck = new List<Vector2Int>();
+		List<Vector2Int> done = new List<Vector2Int>();
+		List<Vector2Int> edgeTiles = new List<Vector2Int>();
 
-	private List<Vector2Int> GetCoastTiles()
-	{
-		List<Vector2Int> tiles = new List<Vector2Int>();
-		//figure out what goes here
-		return tiles;
-	}
-	private void Shrink2()
-	{
-		List<Vector2Int> coastTiles = new List<Vector2Int>();
-		List<Vector2Int> possTiles = new List<Vector2Int>();
-		int l = land.Count - 1;
-		while (coastTiles.Count == 0)
+		while (edgeTiles.Count == 0 && index > 0)
 		{
-			Vector2Int loc = land[l];
-			for (int i = 0; i < 6; i++)
+			Vector2Int t = allTiles[index];
+			foreach(Vector2Int adj in HexGrid.FindAdjacentGridLocs(t))
 			{
-				if (!land.Contains(HexGrid.MoveTo(loc, i)))
+				if (!allTiles.Contains(adj))
 				{
-					coastTiles.Add(loc);
+					done.Add(t);
+					edgeTiles.Add(t);
+					toCheck.Add(t);
 					break;
 				}
 			}
-			l--;
+			index--;
 		}
-		possTiles.AddRange(HexGrid.FindAdjacentGridLocs(coastTiles[0]));
-		int x = 0;
-		while (possTiles.Count > 0 && x < 10000)
+
+		while (toCheck.Count > 0)
 		{
-			x++;
-			Vector2Int loc = possTiles[0];
-			List<Vector2Int> adjLocs = HexGrid.FindAdjacentGridLocs(loc);
-			bool coast = false;
-			if (land.Contains(loc))
+			Vector2Int t = toCheck[0];
+			List<Vector2Int> adj = HexGrid.FindAdjacentGridLocs(t);
+			bool c = false;
+			foreach (Vector2Int a in adj)
 			{
-				foreach (Vector2Int adj in adjLocs)
+				if (!allTiles.Contains(a))
 				{
-					if (!land.Contains(adj))
-						coast = true;
+					if(!edgeTiles.Contains(a))
+						edgeTiles.Add(t);
+					c = true;
+					break;
 				}
 			}
-			else
-				possTiles.Remove(loc);
-			if (coast)
+			if (c)
 			{
-				coastTiles.Add(loc);
-				possTiles.Remove(loc);
-				foreach (Vector2Int adj in adjLocs)
+				foreach (Vector2Int a in adj)
 				{
-					if (land.Contains(adj))
-						possTiles.Add(adj);
+					if (allTiles.Contains(a) && !done.Contains(a) && !toCheck.Contains(a))
+						toCheck.Add(a);
 				}
 			}
-			else
-				possTiles.Remove(loc);
+
+			toCheck.Remove(t);
+			done.Add(t);
 		}
-		for (int i = 0; i < shrinkAmt * islandSize; i++)
+		return edgeTiles;
+	}
+	private void Carve()
+	{
+		List<Vector2Int> edgeTiles = GetEdgeTiles(land);
+		carveAmt = Mathf.RoundToInt(edgeTiles.Count * (6f / 10f));
+		for (int i = 0; i < carveAmt; i++)
 		{
-			Vector2Int remove = coastTiles[Random.Range(0, coastTiles.Count - 1)];
+			Vector2Int remove = edgeTiles[Random.Range(0, edgeTiles.Count - 1)];
 			land.Remove(remove);
-			coastTiles.Remove(remove);
+			edgeTiles.Remove(remove);
 			tiles[remove] = -1;
 			foreach (Vector2Int tile in HexGrid.FindAdjacentGridLocs(remove))
 			{
-				if (land.Contains(tile) && !coastTiles.Contains(tile))
-					coastTiles.Add(tile);
+				if (land.Contains(tile) && !edgeTiles.Contains(tile))
+					edgeTiles.Add(tile);
 			}
 		}
 	}
+	private void Shrink()
+	{
+		List<Vector2Int> remove = GetEdgeTiles(new List<Vector2Int>(land));
+		for (int i = 0; i < remove.Count; i++)
+		{
+			tiles[remove[i]] = -1;
+			land.Remove(remove[i]);
+		}
+	}
+	do this
 	private void Clean()
 	{
 		//Remove holes and islands
 		//remove any tile only connected to one other tile
 		//yo
 	}
-	private void AddNoise()
+	private void Tent()
 	{
-		foreach (Vector2Int v in land)
-			tiles[v] = 3;// Random.Range(0, 3);
+		List<Vector2Int> left = new List<Vector2Int>(land);
+		int h = 0;
+		while (left.Count > 0)
+		{
+			foreach(Vector2Int t in GetEdgeTiles(left))
+			{
+				tiles[t] = h;
+				left.Remove(t);
+			}
+			h++;
+		}
+		foreach(Vector2Int t in land)
+		{
+			tiles[t] -= Random.Range(0, 2);
+			if (tiles[t] < 0)
+				tiles[t] = 0;
+		}
 	}
 	private void AddBlob(Vector2Int gl, bool big)
 	{

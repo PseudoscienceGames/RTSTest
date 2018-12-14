@@ -232,22 +232,27 @@ Prefab:
     - target: {fileID: 114540926010123744, guid: 3f3ff41c8d05a9e4487dfc1fa109efa5,
         type: 2}
       propertyPath: islandSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114540926010123744, guid: 3f3ff41c8d05a9e4487dfc1fa109efa5,
-        type: 2}
-      propertyPath: shrinkAmt
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114540926010123744, guid: 3f3ff41c8d05a9e4487dfc1fa109efa5,
         type: 2}
+      propertyPath: shrinkAmt
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 114540926010123744, guid: 3f3ff41c8d05a9e4487dfc1fa109efa5,
+        type: 2}
       propertyPath: growAmt
-      value: 55
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114540926010123744, guid: 3f3ff41c8d05a9e4487dfc1fa109efa5,
         type: 2}
       propertyPath: seed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114540926010123744, guid: 3f3ff41c8d05a9e4487dfc1fa109efa5,
+        type: 2}
+      propertyPath: carveAmt
+      value: 256
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f3ff41c8d05a9e4487dfc1fa109efa5, type: 2}
