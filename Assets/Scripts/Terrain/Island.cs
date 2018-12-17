@@ -7,19 +7,23 @@ public class Island : MonoBehaviour
 	public static Island instance;
 	void Awake() { instance = this; }
 
+	public bool randomSeed = false;
 	public int seed;
 	public int islandSize;
 	public int carveAmt;
+	public Vector2Int biomePerChunk;
 
 	public List<Vector2Int> chunks = new List<Vector2Int>();
 	public List<ChunkData> chunkDatas = new List<ChunkData>();
 	public Dictionary<Vector2Int, int> tiles = new Dictionary<Vector2Int, int>();
 	public int tileCount;
 	public List<Vector2Int> land = new List<Vector2Int>();
+	public List<List<Vector2Int>> biomes = new List<List<Vector2Int>>();
 
 	public void Start()
 	{
-		seed = Random.Range(int.MinValue, int.MaxValue);
+		if(randomSeed)
+			seed = Random.Range(int.MinValue, int.MaxValue);
 		if (islandSize < 7)
 			islandSize = 7;
 		Random.InitState(seed);
@@ -31,7 +35,8 @@ public class Island : MonoBehaviour
 		AddTiles();
 		Carve();
 		Shrink();
-		Tent();
+		Clean();
+		AddBiomes();
 		foreach (ChunkData cd in chunkDatas)
 			cd.GetComponent<ChunkMesh>().GenMesh();
 		tileCount = tiles.Count;
@@ -175,45 +180,112 @@ public class Island : MonoBehaviour
 			land.Remove(remove[i]);
 		}
 	}
-	do this
 	private void Clean()
 	{
+		List<Vector2Int> landTiles = new List<Vector2Int>();
+		List<Vector2Int> toCheck = new List<Vector2Int>();
+		List<Vector2Int> didCheck = new List<Vector2Int>();
+
+		toCheck.Add(Vector2Int.zero);
+		while(toCheck.Count > 0)
+		{
+			Vector2Int t = toCheck[0];
+			if(land.Contains(t))
+			{
+				landTiles.Add(t);
+				foreach(Vector2Int v in HexGrid.FindAdjacentGridLocs(t))
+				{
+					if(!landTiles.Contains(v) && !toCheck.Contains(v) && !didCheck.Contains(v))
+					{
+						toCheck.Add(v);
+					}
+				}
+			}
+			didCheck.Add(t);
+			toCheck.Remove(t);
+		}
+		List<Vector2Int> temp = new List<Vector2Int>(land);
+		foreach (Vector2Int v in temp)
+		{
+			if (!landTiles.Contains(v))
+			{
+				//Debug.Log("AHHA");
+				tiles[v] = -1;
+				land.Remove(v);
+			}
+		}
 		//Remove holes and islands
 		//remove any tile only connected to one other tile
 		//yo
 	}
-	private void Tent()
+	private void AddBiomes()
 	{
+		foreach(ChunkData chunk in chunkDatas)
+		{
+			int bc = Random.Range(biomePerChunk.x, biomePerChunk.y);
+			List<Vector2Int> chunkTiles = new List<Vector2Int>(chunk.tiles);
+			List<Vector2Int> water = new List<Vector2Int>();
+			for (int i = 0; i < chunkTiles.Count; i++)
+			{
+				if (!land.Contains(chunkTiles[i]))
+					water.Add(chunkTiles[i]);
+			}
+			foreach (Vector2Int w in water)
+				chunkTiles.Remove(w);
+			for (int i = 0; i < bc; i++)
+			{
+				Vector2Int t = chunkTiles[Random.Range(0, chunkTiles.Count)];
+				biomes.Add(new List<Vector2Int>());
+				biomes[biomes.Count - 1].Add(t);
+				chunkTiles.Remove(t);
+			}
+		}
 		List<Vector2Int> left = new List<Vector2Int>(land);
-		int h = 0;
+		for (int i = 0; i < biomes.Count; i++)
+		{
+			if (left.Contains(biomes[i][0]))
+				left.Remove(biomes[i][0]);
+		}
+		List<List<Vector2Int>> possTiles = new List<List<Vector2Int>>();
+		for (int i = 0; i < biomes.Count; i++)
+		{
+			possTiles.Add(new List<Vector2Int>());
+			foreach(Vector2Int v in HexGrid.FindAdjacentGridLocs(biomes[i][0]))
+			{
+				if (left.Contains(v))
+					possTiles[i].Add(v);
+			}
+		}
 		while (left.Count > 0)
 		{
-			foreach(Vector2Int t in GetEdgeTiles(left))
+			int bIndex = Random.Range(0, possTiles.Count);
+			if (possTiles[bIndex].Count > 0)
 			{
-				tiles[t] = h;
-				left.Remove(t);
+				int tIndex;
+				if (possTiles[bIndex].Count == 1)
+					tIndex = 0;
+				else
+					tIndex = Random.Range(0, possTiles[bIndex].Count / 2);
+
+				Vector2Int add = possTiles[bIndex][tIndex];
+				if (left.Contains(add))
+				{
+					biomes[bIndex].Add(add);
+					left.Remove(add);
+					foreach (Vector2Int v in HexGrid.FindAdjacentGridLocs(add))
+					{
+						if (left.Contains(v) && !possTiles[bIndex].Contains(v))
+							possTiles[bIndex].Add(v);
+					}
+				}
+				possTiles[bIndex].Remove(add);
 			}
-			h++;
 		}
-		foreach(Vector2Int t in land)
+		for (int i = 0; i < biomes.Count; i++)
 		{
-			tiles[t] -= Random.Range(0, 2);
-			if (tiles[t] < 0)
-				tiles[t] = 0;
-		}
-	}
-	private void AddBlob(Vector2Int gl, bool big)
-	{
-		tiles[gl] = 0;
-		if(!land.Contains(gl))
-			land.Add(gl);
-		if (big)
-		{
-			foreach (Vector2Int adj in HexGrid.FindAdjacentGridLocs(gl))
+			foreach(Vector2Int v in biomes[i])
 			{
-				tiles[adj] = 0;
-				if(!land.Contains(adj))
-					land.Add(adj);
+				tiles[v] = i * 5;
 			}
 		}
 	}

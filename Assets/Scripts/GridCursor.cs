@@ -12,13 +12,13 @@ public class GridCursor : MonoBehaviour
 
 	void Update()
 	{
-		//Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		//RaycastHit hit;
-		//if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Terrain")
-		//{
-		//	Vector2Int loc = HexGrid.RoundToGrid(hit.point);
-		//	transform.position = HexGrid.GridToWorld(loc, MapGen.instance.GetHeight(loc));
-		//	gridLoc = HexGrid.RoundToGrid(transform.position);
-		//}
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		RaycastHit hit;
+		if (Physics.Raycast(ray, out hit) && hit.transform.tag == "Terrain")
+		{
+			Vector2Int loc = HexGrid.RoundToGrid(hit.point);
+			transform.position = HexGrid.GridToWorld(loc, Island.instance.GetHeight(loc));
+			gridLoc = HexGrid.RoundToGrid(transform.position);
+		}
 	}
 }
