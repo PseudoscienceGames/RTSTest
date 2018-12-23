@@ -37,6 +37,7 @@ public class Island : MonoBehaviour
 		Shrink();
 		Clean();
 		AddBiomes();
+		DefineBiomes();
 		foreach (ChunkData cd in chunkDatas)
 			cd.GetComponent<ChunkMesh>().GenMesh();
 		tileCount = tiles.Count;
@@ -281,11 +282,31 @@ public class Island : MonoBehaviour
 				possTiles[bIndex].Remove(add);
 			}
 		}
+	}
+	private void DefineBiomes()
+	{
+		List<int> coastBiomes = new List<int>();
+		List<Vector2Int> coastTiles = GetEdgeTiles(land);
 		for (int i = 0; i < biomes.Count; i++)
 		{
-			foreach(Vector2Int v in biomes[i])
+			foreach(Vector2Int t in GetEdgeTiles(biomes[i]))
 			{
-				tiles[v] = i * 5;
+				if(coastTiles.Contains(t))
+				{
+					coastBiomes.Add(i);
+					break;
+				}
+			}
+		}
+		for (int i = 0; i < biomes.Count; i++)
+		{
+			if(!coastBiomes.Contains(i))
+			{
+				int h = Random.Range(1, 4);
+				foreach(Vector2Int v in biomes[i])
+				{
+					tiles[v] = 1;
+				}
 			}
 		}
 	}
