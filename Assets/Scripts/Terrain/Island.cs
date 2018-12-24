@@ -28,6 +28,7 @@ public class Island : MonoBehaviour
 			islandSize = 7;
 		Random.InitState(seed);
 		GenIslandData();
+		Debug.Log(Time.realtimeSinceStartup);
 	}
 	public void GenIslandData()
 	{

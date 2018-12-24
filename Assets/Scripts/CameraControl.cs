@@ -57,21 +57,20 @@ public class CameraControl : MonoBehaviour
 			//Zoom camera
 			zoom = -Camera.main.transform.localPosition.z;
 
-			if (zoom > zoomMin && zoom < zoomMax)
-			{
+			
 				if (Camera.main.orthographic)
 					Camera.main.orthographicSize -= Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
 				else
 				{
 					targetZoom += -(Input.GetAxisRaw("Mouse ScrollWheel")) * zoomSpeed;
 					if (targetZoom > zoomMax)
-						targetZoom = zoomMax;
+						targetZoom = zoomMax - 0.01f;
 					if (targetZoom < zoomMin)
-						targetZoom = zoomMin;
+						targetZoom = zoomMin + 0.01f;
 					Vector3 zoomV = new Vector3(0, 0, -targetZoom);
 					Camera.main.transform.localPosition = Vector3.SmoothDamp(Camera.main.transform.localPosition, zoomV, ref zVelocity, zoomSmoothTime);
 				}
-			}
+			
 		}
 		
 		if (Input.GetMouseButtonDown(2))
