@@ -10,9 +10,6 @@ public class CameraControl : MonoBehaviour
 	public int zoomMax;
 	public float zoomSpeed;
 	public float cameraRotSpeed;
-	public float camPanSpeed;
-	public int scrollAreaSize;
-	public bool screenEdgeScroll;
 
 	public GameObject cameraPivot;
 
@@ -36,10 +33,6 @@ public class CameraControl : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetAxis("Vertical") != 0)
-			transform.position += transform.forward * Input.GetAxisRaw("Vertical") * camPanSpeed;
-		if (Input.GetAxis("Horizontal") != 0)
-			transform.position += transform.right * Input.GetAxisRaw("Horizontal") * camPanSpeed;
 		//Pivots camera based on mouse movement
 		if (Input.GetMouseButton(1))
 		{

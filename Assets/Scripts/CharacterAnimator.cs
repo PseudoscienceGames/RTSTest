@@ -6,18 +6,19 @@ using UnityEngine.AI;
 public class CharacterAnimator : MonoBehaviour
 {
 	const float locoAnimSmoothTime = 0.1f;
-	NavMeshAgent agent;
+	Player player;
 	Animator animator;
 
 	void Start ()
 	{
-		agent = GetComponent<NavMeshAgent>();
+		player = GetComponent<Player>();
 		animator = GetComponentInChildren<Animator>();
 	}
 	
 	void Update ()
 	{
-		float speedPercent = agent.velocity.magnitude / agent.speed;
+		float mag = new Vector3(player.velocity.x, 0, player.velocity.z).magnitude;
+		float speedPercent = mag / player.speed;
 		animator.SetFloat("speedPercent", speedPercent, locoAnimSmoothTime, Time.deltaTime);
 	}
 }

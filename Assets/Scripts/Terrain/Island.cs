@@ -39,6 +39,7 @@ public class Island : MonoBehaviour
 		Clean();
 		AddBiomes();
 		DefineBiomes();
+		//AddNoise();
 		foreach (ChunkData cd in chunkDatas)
 			cd.GetComponent<ChunkMesh>().GenMesh();
 		tileCount = tiles.Count;
@@ -311,11 +312,30 @@ public class Island : MonoBehaviour
 			}
 		}
 	}
+	private void AddNoise()
+	{
+		foreach(Vector2Int loc in land)
+		{
+			tiles[loc] += Random.Range(0, 2);
+		}
+	}
 	public int GetHeight(Vector2Int gridLoc)
 	{
 		if (tiles.ContainsKey(gridLoc))
 			return tiles[gridLoc];
 		else
 			return -1;
+	}
+	public ChunkData FindChunk(Vector2Int gridLoc)
+	{
+
+		foreach(ChunkData cd in chunkDatas)
+		{
+			if(cd.tiles.Contains(gridLoc))
+			{
+				return cd;
+			}
+		}
+		return null;
 	}
 }

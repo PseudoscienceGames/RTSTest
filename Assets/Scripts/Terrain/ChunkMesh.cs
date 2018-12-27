@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChunkMesh : MonoBehaviour{
-	public Dictionary<Vector2Int, MeshTile> meshTiles = new Dictionary<Vector2Int, MeshTile>();
-	public List<Vector3> verts = new List<Vector3>();
-	public List<int> tris = new List<int>();
-	public List<Vector2> uvs = new List<Vector2>();
+	public Dictionary<Vector2Int, MeshTile> meshTiles;
+	public List<Vector3> verts;
+	public List<int> tris;
+	public List<Vector2> uvs;
 	public int triNum = 0;
 	public Mesh mesh;
 	private ChunkData cd;
 	private MeshCollider col;
 
 	public void GenMesh(){
+		
+		meshTiles = new Dictionary<Vector2Int, MeshTile>();
+		verts = new List<Vector3>();
+		tris = new List<int>();
+		uvs = new List<Vector2>();
 		mesh = GetComponent<MeshFilter>().mesh;
+		mesh.Clear();
 		col = GetComponent<MeshCollider>();
 		cd = GetComponent<ChunkData>();
-
+		triNum = 0;
 		AddTiles();
 		CalcTileMeshData();
 		foreach(MeshTile tile in meshTiles.Values){
@@ -25,7 +31,7 @@ public class ChunkMesh : MonoBehaviour{
 				verts.Add(vert - transform.position);
 			foreach (int tri in tile.tris)
 				tris.Add(tri + triNum);
-			triNum += 6;
+			triNum += 7;
 			foreach (Vector2 uv in tile.uvs)
 				uvs.Add(uv);
 		}
