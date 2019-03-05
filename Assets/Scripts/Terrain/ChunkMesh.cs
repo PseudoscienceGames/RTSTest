@@ -31,11 +31,11 @@ public class ChunkMesh : MonoBehaviour{
 				verts.Add(vert - transform.position);
 			foreach (int tri in tile.tris)
 				tris.Add(tri + triNum);
-			triNum += 7;
+			triNum += 6;
 			foreach (Vector2 uv in tile.uvs)
 				uvs.Add(uv);
 		}
-		ExpandDoubles();
+		//ExpandDoubles();
 		mesh.vertices = verts.ToArray();
 		mesh.triangles = tris.ToArray();
 		mesh.uv = uvs.ToArray();

@@ -19,6 +19,7 @@ public class Island : MonoBehaviour
 	public int tileCount;
 	public List<Vector2Int> land = new List<Vector2Int>();
 	public List<List<Vector2Int>> biomes = new List<List<Vector2Int>>();
+	public List<PlantController> plantControllers = new List<PlantController>();
 
 	public void Start()
 	{
@@ -29,6 +30,8 @@ public class Island : MonoBehaviour
 		Random.InitState(seed);
 		GenIslandData();
 		Debug.Log(Time.realtimeSinceStartup);
+		foreach(PlantController p in plantControllers)
+			p.AddPlants();
 	}
 	public void GenIslandData()
 	{
@@ -37,7 +40,7 @@ public class Island : MonoBehaviour
 		Carve();
 		Shrink();
 		Clean();
-		AddBiomes();
+		AddSections();
 		DefineBiomes();
 		//AddNoise();
 		foreach (ChunkData cd in chunkDatas)
@@ -221,7 +224,7 @@ public class Island : MonoBehaviour
 		//remove any tile only connected to one other tile
 		//yo
 	}
-	private void AddBiomes()
+	private void AddSections()
 	{
 		foreach(ChunkData chunk in chunkDatas)
 		{
@@ -291,9 +294,9 @@ public class Island : MonoBehaviour
 		List<Vector2Int> coastTiles = GetEdgeTiles(land);
 		for (int i = 0; i < biomes.Count; i++)
 		{
-			foreach(Vector2Int t in GetEdgeTiles(biomes[i]))
+			foreach (Vector2Int t in GetEdgeTiles(biomes[i]))
 			{
-				if(coastTiles.Contains(t))
+				if (coastTiles.Contains(t))
 				{
 					coastBiomes.Add(i);
 					break;
@@ -302,10 +305,10 @@ public class Island : MonoBehaviour
 		}
 		for (int i = 0; i < biomes.Count; i++)
 		{
-			if(!coastBiomes.Contains(i))
+			if (!coastBiomes.Contains(i))
 			{
 				int h = Random.Range(1, 4);
-				foreach(Vector2Int v in biomes[i])
+				foreach (Vector2Int v in biomes[i])
 				{
 					tiles[v] = 1;
 				}

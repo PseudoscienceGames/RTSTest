@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
 		if (input.magnitude > 1f)
 			input = input.normalized;
 		input *= speed;
+		if (pc.isGrounded)
+			velocity.y = 0;
 		velocity.y += gravity * Time.deltaTime;
 		input.y = velocity.y;
 		transform.LookAt(new Vector3(transform.position.x + velocity.x, transform.position.y, transform.position.z + velocity.z));
